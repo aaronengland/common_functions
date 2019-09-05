@@ -58,7 +58,7 @@ def max_days_month(month_number):
         return 31
 
 # define a function for recommendations
-def recommendations(treatment_plan_id, available_at, product_name, name_of_product, n_commonly_prescribed=10):
+def recommendations(arr_treatment_plan_id, arr_available_at, arr_product_name, name_of_product, n_commonly_prescribed=10):
     # make empty df
     df = pd.DataFrame()
     # create df
@@ -94,7 +94,7 @@ def recommendations(treatment_plan_id, available_at, product_name, name_of_produ
     # get only the lists containing name_product from list_list_product_name and combine them into a large list
     list_list_list_product_name = []
     for list_product_name in list_list_product_name:
-        if name_product in list_product_name:
+        if name_of_product in list_product_name:
             list_list_list_product_name.extend(list_product_name)
     # Get top 10 value counts (excluding the first index because it will be itself)
     print('\n')
