@@ -98,6 +98,6 @@ def recommendations(arr_treatment_plan_id, arr_available_at, arr_product_name, n
             list_list_list_product_name.extend(list_product_name)
     # Get top 10 value counts (excluding the first index because it will be itself)
     print('\n')
-    print('{0} most commonly prescribed with {1}:'.format(n_commonly_prescribed, name_product))
+    print('{0} most commonly prescribed with {1}:'.format(n_commonly_prescribed, name_of_product))
     for i in range(1, n_commonly_prescribed+1):
         print('{0}. {1}'.format(i, pd.value_counts(list_list_list_product_name).index[i]))
