@@ -1,7 +1,7 @@
 # common functions
 
 # define a function for recommendations
-def recommendations(treatment_plan_id, available_at, product_name, name_of_product):
+def recommendations(treatment_plan_id, available_at, product_name, name_of_product, n_commonly_prescribed=10):
     # create df
     df['treatment_plan_id'] = treatment_plan_id
     df['available_at'] = available_at
@@ -39,8 +39,8 @@ def recommendations(treatment_plan_id, available_at, product_name, name_of_produ
             list_list_list_product_name.extend(list_product_name)
     # Get top 10 value counts (excluding the first index because it will be itself)
     print('\n')
-    print('Most commonly prescribed with {0}:'.format(name_product))
-    for i in range(1, 11):
+    print('{0} most commonly prescribed with {1}:'.format(n_commonly_prescribed, name_product))
+    for i in range(1, n_commonly_prescribed+1):
         print('{0}. {1}'.format(i, pd.value_counts(list_list_list_product_name).index[i]))
 
 # get month name from month number
