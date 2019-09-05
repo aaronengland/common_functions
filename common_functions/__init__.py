@@ -1,5 +1,6 @@
 # common functions
 from sys import stdout
+import pandas as pd
 
 # get month name from month number
 def get_month_name(month_number):
@@ -57,6 +58,8 @@ def max_days_month(month_number):
 
 # define a function for recommendations
 def recommendations(treatment_plan_id, available_at, product_name, name_of_product, n_commonly_prescribed=10):
+    # make empty df
+    df = pd.DataFrame()
     # create df
     df['treatment_plan_id'] = treatment_plan_id
     df['available_at'] = available_at
