@@ -1,4 +1,5 @@
 # common functions
+from sys import stdout
 
 # get month name from month number
 def get_month_name(month_number):
