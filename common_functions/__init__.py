@@ -62,9 +62,9 @@ def recommendations(arr_treatment_plan_id, arr_available_at, arr_product_name, n
     # make empty df
     df = pd.DataFrame()
     # create df
-    df['treatment_plan_id'] = treatment_plan_id
-    df['available_at'] = available_at
-    df['product_name'] = product_name
+    df['treatment_plan_id'] = arr_treatment_plan_id
+    df['available_at'] = arr_available_at
+    df['product_name'] = arr_product_name
     # concatenate treatment_plan_id and date and make into a col so we can make sure the same tx plan and same available_at date are grouped
     df['tx_plan_id_date'] = df.apply(lambda x: str(x['treatment_plan_id']) + ' ' + str(x['available_at']), axis=1)
     # get the unique values for tx_plan_id_date
