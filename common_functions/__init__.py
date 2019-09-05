@@ -1,5 +1,24 @@
 # common functions
 
+# function to calculate lift (i.e., association)
+def get_lift(N_item_1, N_item_2, N_both_items, N_transactions):
+    # calculate probability of buying 1 and 2 if item 2 is bought
+    confidence = N_both_items/N_item_2
+    # caculate overall probability of buying item 1
+    support = N_item_1/N_transactions
+    # calculate increase in ratio of item 2 when item 1 is sold
+    lift = confidence/support
+    # def class of attributes
+    class attributes:
+        def __init__(self, confidence, support, lift):
+            self.confidence = confidence
+            self.support = support
+            self.lift = lift
+    # save class as returnable object
+    attributes = attributes(confidence, support, lift)
+    # return the object
+    return attributes
+
 # get month name from month number
 def get_month_name(month_number):
     if month_number == 1:
