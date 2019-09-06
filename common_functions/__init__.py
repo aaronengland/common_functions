@@ -105,5 +105,5 @@ def recommendations(arr_transaction, arr_product_name, arr_modality, list_target
     print('Item(s) frequently associated with {0} for a {1}:'.format(list_target_products, target_modality))
     for i in range(len(final_suggested_items)):
         print('{0}. {1}'.format(i+1, final_suggested_items[i]))
-        if i == n_max_associations:
+        if i == n_max_associations-1:
             break
