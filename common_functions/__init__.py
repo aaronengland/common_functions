@@ -1,6 +1,7 @@
 # common functions
 import pandas as pd
 import numpy as np
+import itertools
 
 # get month name from month number
 def get_month_name(month_number):
