@@ -58,7 +58,6 @@ def max_days_month(month_number):
         return 31
 
 # define a function for recommendations
-# make function
 def recommendations(arr_transaction, arr_product_name, arr_modality, list_target_products, target_modality, modality=True, n_max_associations=10):
     # create empty df
     df = pd.DataFrame()
