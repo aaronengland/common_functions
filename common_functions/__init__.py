@@ -98,7 +98,7 @@ def recommendations(arr_transaction, arr_product_name, arr_modality, list_target
     # get value counts
     list_suggested_items = list(pd.value_counts(list_product_names).index)
     # get the items in list_suggested_items not in list_products_of_choice
-    final_suggested_items = np.setdiff1d(list_suggested_items, list_products_of_choice, assume_unique=True)
+    final_suggested_items = np.setdiff1d(list_suggested_items, list_target_products, assume_unique=True)
 
     # print suggested items list
     print('\n')
