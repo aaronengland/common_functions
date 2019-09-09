@@ -106,3 +106,44 @@ def recommendations(arr_transaction, arr_product_name, arr_modality, list_target
         print('{0}. {1}'.format(i+1, final_suggested_items[i]))
         if i == n_max_associations-1:
             break
+
+# define function for recommendations if we do the aggregation before the function
+def recommendations_lite(arr_product_name, arr_modality, target_modality, list_target_products, modality=True, n_max_associations=10):
+    # putarrays into df
+    df = pd.DataFrame({'product_name': arr_product_name,
+                       'modality': arr_modality})
+    # set up logic for modality
+    if modality == True:
+        # subset modality
+        df = df[df['modality'] == target_modality]
+    # drop modality
+    df.drop(['modality'], axis=1, inplace=True)
+    
+    # mark rows with single item
+    df['single_item'] = df.apply(lambda x: 1 if len(x['product_name']) == 1 else 0, axis=1)
+    # drop rows with single items
+    df = df[df['single_item'] == 0]
+    # drop single_item col
+    df.drop(['single_item'], axis=1, inplace=True)
+    
+    # mark rows with 1 if target product in list
+    df['target_item'] = df.apply(lambda x: 1 if set(list_target_products).issubset(set(x['product_name'])) else 0, axis=1)
+    # drop rows where target_item == 0
+    df = df[df['target_item'] == 1]
+    # drop target_item col
+    df.drop(['target_item'], axis=1, inplace=True)
+    
+    # flatten list
+    list_product_names = list(itertools.chain(*list(df['product_name'])))
+    # get value counts
+    list_suggested_items = list(pd.value_counts(list_product_names).index)
+    # get the items in list_suggested_items not in list_products_of_choice
+    final_suggested_items = np.setdiff1d(list_suggested_items, list_target_products, assume_unique=True)
+    
+    # print suggested items list
+    print('\n')
+    print('Item(s) frequently associated with {0} for a {1}:'.format(list_target_products, target_modality))
+    for i in range(len(final_suggested_items)):
+        print('{0}. {1}'.format(i+1, final_suggested_items[i]))
+        if i == n_max_associations-1:
+            break
