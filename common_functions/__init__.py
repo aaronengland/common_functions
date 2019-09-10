@@ -57,93 +57,132 @@ def max_days_month(month_number):
     else:
         return 31
 
-# define a function for recommendations
-def recommendations(arr_transaction, arr_product_name, arr_modality, list_target_products, target_modality, modality=True, n_max_associations=10):
-    # create empty df
+def recommendations(arr_prescription, arr_product_name, arr_modality, list_target_products, target_modality='Naturopathic Doctor', list_sort_associations=['confidence','lift','support'], n_associated_products=10):
+    # save length off arrays
+    len_arr_prescription = len(arr_prescription)
+    len_arr_product_name = len(arr_product_name)
+    len_arr_modality = len(arr_modality)
+    
+    # make sure they're all the same length
+    if len_arr_prescription == len_arr_product_name == len_arr_modality:
+        print('Success! All arrays are the same length.')
+    else:
+        print('Error! Not all arrays are the same length.')
+
+    # check to make sure the list of target products is in arr_product_name
+    if set(list_target_products).issubset(set(arr_product_name)):
+        print('Success! Target product(s) are valid.')
+    else:
+        print('Error! Target product(s) are not found.')
+    
+    # check to make sure target_modality is in arr_modality
+    if target_modality in list(arr_modality):
+        print('Success! Target modality is valid.')
+    else:
+        print('Error! Target modality not found.')
+    
+    ###########################################################################
+    # creat df
     df = pd.DataFrame()
-    # put arrays as cols in df
-    df['transaction'] = arr_transaction
+    # add cols to df
+    df['prescription'] = arr_prescription
     df['product_name'] = arr_product_name
     df['modality'] = arr_modality
     
-    # set up logic for modality
-    if modality == True:
-        # subset modality
-        df = df[df['modality'] == target_modality]
+    ###########################################################################
+    # subset modality
+    df = df[df['modality'] == target_modality]
     # drop modality
     df.drop(['modality'], axis=1, inplace=True)
-    
+
+    ###########################################################################
     # convert into df with lists
-    df = df.groupby('transaction').agg(lambda x: x.unique().tolist()).reset_index()
+    df = df.groupby('prescription').agg(lambda x: x.unique().tolist()).reset_index()
     # drop prescription col
-    df.drop(['transaction'], axis=1, inplace=True)
-    
+    df.drop(['prescription'], axis=1, inplace=True)
+
+    ###########################################################################
+    # get the number of transactions so we can calculate probability later
+    n_total_transactions = df.shape[0]
+
+    ###########################################################################
+    # flatten lists so we can get value counts
+    list_product_names = list(itertools.chain(*list(df['product_name'])))
+    # get value counts
+    df2 = pd.DataFrame(pd.value_counts(list_product_names)).reset_index(level=0, inplace=False)
+    # set column names
+    df2.columns = ['product_name','prescriptions']
+    # calculate the probability of ordering each product (i.e., support)
+    df2['support'] = df2['prescriptions']/n_total_transactions
+
+    ###########################################################################
+    # since this is association, we will remove any prescriptions w/length == 1
     # mark rows with single item
     df['single_item'] = df.apply(lambda x: 1 if len(x['product_name']) == 1 else 0, axis=1)
     # drop rows with single items
     df = df[df['single_item'] == 0]
     # drop single_item col
     df.drop(['single_item'], axis=1, inplace=True)
-    
+
+    ###########################################################################
+    # now, we need to narrow down 
     # mark rows with 1 if target product in list
     df['target_item'] = df.apply(lambda x: 1 if set(list_target_products).issubset(set(x['product_name'])) else 0, axis=1)
     # drop rows where target_item == 0
     df = df[df['target_item'] == 1]
     # drop target_item col
     df.drop(['target_item'], axis=1, inplace=True)
-    
+
+    ###########################################################################
+    # get number of transactions involving the target item(s)
+    n_transactions_target = df.shape[0]
+
+    ###########################################################################
     # flatten list
     list_product_names = list(itertools.chain(*list(df['product_name'])))
-    # get value counts
-    list_suggested_items = list(pd.value_counts(list_product_names).index)
-    # get the items in list_suggested_items not in list_products_of_choice
-    final_suggested_items = np.setdiff1d(list_suggested_items, list_target_products, assume_unique=True)
+    # create a new df
+    df3 = pd.DataFrame(pd.value_counts(list_product_names)).reset_index(level=0, inplace=False)
+    # set column names
+    df3.columns = ['product_name','prescriptions']
+    # calculate the probability of ordering each product (i.e., confidence_)
+    df3['confidence'] = df3['prescriptions']/n_transactions_target
 
-    # print suggested items list
-    print('\n')
-    print('Item(s) frequently associated with {0} for a {1}:'.format(list_target_products, target_modality))
-    for i in range(len(final_suggested_items)):
-        print('{0}. {1}'.format(i+1, final_suggested_items[i]))
-        if i == n_max_associations-1:
-            break
+    ###########################################################################
+    # left join df3 and df2 on product_name
+    df4 = pd.merge(left=df3, right=df2, on='product_name', how='left')
+    # drop the cols we don't need
+    df4.drop(['prescriptions_x','prescriptions_y'], axis=1, inplace=True)
+    # calculate lift
+    df4['lift'] = df4['confidence']/df4['support']
 
-# define function for recommendations if we do the aggregation before the function
-def recommendations_lite(arr_product_name, arr_modality, target_modality, list_target_products, modality=True, n_max_associations=10):
-    # putarrays into df
-    df = pd.DataFrame({'product_name': arr_product_name,
-                       'modality': arr_modality})
-    # set up logic for modality
-    if modality == True:
-        # subset modality
-        df = df[df['modality'] == target_modality]
-    # drop modality
-    df.drop(['modality'], axis=1, inplace=True)
+    ###########################################################################
+    # sort df4 and reset index
+    df4_sorted = df4.sort_values(by=list_sort_associations, ascending=False).reset_index(drop=True)
+
+    ###########################################################################
+    # get length of list_target_products
+    len_list_target_products = len(list_target_products)
+        
+    ###########################################################################
+    # set up logic in case the number of rows in df4_sorted < n_associated_products
+    # this is where some errors could occur!
+    if (df4_sorted.shape[0] - len_list_target_products) < n_associated_products:
+        # drop the first n rows (i.e., length of list_products_of_choice)
+        df_associated_items = df4_sorted.iloc[len_list_target_products:]
+        # print message
+        print('Note: Fewer associated products than n_associated_products argument. Showing all {0} associated products in df_associated_items attribute.'.format(df_associated_items.shape[0]))
+    else:
+        df_associated_items = df4_sorted.iloc[len_list_target_products:n_associated_products+len_list_target_products]
+        # print message
+        print('Top {0} associated products found in df_associated_items attribute.'.format(n_associated_products))
+    # set an index in order
+    df_associated_items.index = [x for x in range(1, df_associated_items.shape[0]+1)]
     
-    # mark rows with single item
-    df['single_item'] = df.apply(lambda x: 1 if len(x['product_name']) == 1 else 0, axis=1)
-    # drop rows with single items
-    df = df[df['single_item'] == 0]
-    # drop single_item col
-    df.drop(['single_item'], axis=1, inplace=True)
-    
-    # mark rows with 1 if target product in list
-    df['target_item'] = df.apply(lambda x: 1 if set(list_target_products).issubset(set(x['product_name'])) else 0, axis=1)
-    # drop rows where target_item == 0
-    df = df[df['target_item'] == 1]
-    # drop target_item col
-    df.drop(['target_item'], axis=1, inplace=True)
-    
-    # flatten list
-    list_product_names = list(itertools.chain(*list(df['product_name'])))
-    # get value counts
-    list_suggested_items = list(pd.value_counts(list_product_names).index)
-    # get the items in list_suggested_items not in list_products_of_choice
-    final_suggested_items = np.setdiff1d(list_suggested_items, list_target_products, assume_unique=True)
-    
-    # print suggested items list
-    print('\n')
-    print('Item(s) frequently associated with {0} for a {1}:'.format(list_target_products, target_modality))
-    for i in range(len(final_suggested_items)):
-        print('{0}. {1}'.format(i+1, final_suggested_items[i]))
-        if i == n_max_associations-1:
-            break
+    ###########################################################################
+    # define attributes class to return certain attributes from function
+    class attributes:
+        def __init__(self, df_associated_items):
+            self.df_associated_items = df_associated_items
+    # save as a returnable object
+    x = attributes(df_associated_items)
+    return x
