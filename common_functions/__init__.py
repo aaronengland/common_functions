@@ -57,6 +57,7 @@ def max_days_month(month_number):
     else:
         return 31
 
+# recommendations
 def recommendations(arr_prescription, arr_product_name, arr_modality, list_target_products, target_modality='Naturopathic Doctor', list_sort_associations=['confidence','lift','support'], n_associated_products=10):
     # save length off arrays
     len_arr_prescription = len(arr_prescription)
