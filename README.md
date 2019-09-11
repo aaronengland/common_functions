@@ -23,6 +23,8 @@ The ```recomendations``` function measures the strength of association of each i
 
 <img src="https://latex.codecogs.com/gif.latex?Lift&space;=&space;\frac{Confidence}{Support}" title="Lift = \frac{Confidence}{Support}" />
 
+[Source](https://stackabuse.com/association-rule-mining-via-apriori-algorithm-in-python/)
+
 **How to use the function**:
 
 Arguments:
