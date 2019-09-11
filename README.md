@@ -19,7 +19,7 @@ The ```recomendations``` function measures the strength of association of each i
 
 <img src="https://latex.codecogs.com/gif.latex?Confidence&space;=&space;\frac{Prescriptions{_{Item}}}{Prescriptions{_{TargetItem}}}" title="Confidence = \frac{Prescriptions{_{Item}}}{Prescriptions{_{TargetItem}}}" />
 
-- Lift: ratio of confidence to support (i.e., extent to which the probability of an item being prescribed is elevated due to the target item being prescribed).
+- Lift: ratio of confidence to support (i.e., extent to which the probability of an item being prescribed is elevated or lessened due to the target item being prescribed).
 
 <img src="https://latex.codecogs.com/gif.latex?Lift&space;=&space;\frac{Confidence}{Support}" title="Lift = \frac{Confidence}{Support}" />
 
