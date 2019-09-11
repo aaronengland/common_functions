@@ -10,6 +10,7 @@ The ```recomendations``` function measures the strength of association of each i
 
 Metric Definitions:
 - Support: overall probability of an item being prescribed
+
 <a href="https://www.codecogs.com/eqnedit.php?latex=Support&space;=&space;\frac{Prescriptions{_{ItemB}}}{Prescriptions{_{Total}}}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?Support&space;=&space;\frac{Prescriptions{_{ItemB}}}{Prescriptions{_{Total}}}" title="Support = \frac{Prescriptions{_{ItemB}}}{Prescriptions{_{Total}}}" />
 
 
