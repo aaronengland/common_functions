@@ -10,8 +10,6 @@ The ```recomendations``` function measures the strength of association of each i
 - Confidence
 - Lift
 
---
-
 Metric Definitions:
 - Support: overall probability of an item being prescribed
 
