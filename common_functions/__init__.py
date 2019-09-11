@@ -57,8 +57,30 @@ def max_days_month(month_number):
     else:
         return 31
 
-# recommendations
+# recommendations function
 def recommendations(arr_prescription, arr_product_name, arr_modality, list_target_products, target_modality='Naturopathic Doctor', list_sort_associations=['confidence','lift','support'], n_associated_products=10):
+    # define user-defined exception
+    class Error(Exception):
+        'Base class for other exceptions'
+        pass
+    
+    # error for arrays of unequal lengths
+    class ArraysUnequalLengthError(Error):
+        'Raised when the arrays are of unequal lengths'
+        pass
+    
+    # error when target product is not valid
+    class TargetProductNotValidError(Error):
+        'Raised when the target product is not in the array'
+        pass
+    
+    # error when the target modality is not valid
+    class TargetModalityNotValidError(Error):
+        'Raised when the target modality is not in the array'
+        pass
+    
+    ###########################################################################
+    
     # save length of arrays
     len_arr_prescription = len(arr_prescription)
     len_arr_product_name = len(arr_product_name)
@@ -68,19 +90,22 @@ def recommendations(arr_prescription, arr_product_name, arr_modality, list_targe
     if len_arr_prescription == len_arr_product_name == len_arr_modality:
         print('Success! All arrays are the same length.')
     else:
-        print('Error! Not all arrays are the same length.')
+        raise ArraysUnequalLengthError
+        #print('Error! Arrays are of unequal length. Try again.')
 
     # check to make sure the list of target products is in arr_product_name
     if set(list_target_products).issubset(set(arr_product_name)):
         print('Success! Target product(s) are valid.')
     else:
-        print('Error! Target product(s) are not found.')
+        raise TargetProductNotValidError
+        #print('Error! Target products are not found. Try again.')
     
     # check to make sure target_modality is in arr_modality
     if target_modality in list(arr_modality):
         print('Success! Target modality is valid.')
     else:
-        print('Error! Target modality not found.')
+        raise TargetModalityNotValidError
+        #print('Error! Target modality not found. Try again.')
     
     ###########################################################################
     # creat df
