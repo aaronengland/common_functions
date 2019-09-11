@@ -15,7 +15,7 @@ Metric Definitions:
 
 - Confidence: probability of an item being prescribed, given that the ```target_item``` has been prescribed
 
-<img src="https://latex.codecogs.com/gif.latex?Support&space;=&space;\frac{Prescriptions{_{Item}}}{Prescriptions{_{TargetItem}}}" title="Support = \frac{Prescriptions{_{Item}}}{Prescriptions{_{TargetItem}}}" />
+<img src="https://latex.codecogs.com/gif.latex?Confidence&space;=&space;\frac{Prescriptions{_{Item}}}{Prescriptions{_{TargetItem}}}" title="Confidence = \frac{Prescriptions{_{Item}}}{Prescriptions{_{TargetItem}}}" />
 
 
 
