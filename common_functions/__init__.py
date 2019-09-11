@@ -58,7 +58,12 @@ def max_days_month(month_number):
         return 31
 
 # recommendations function
-def recommendations(arr_prescription, arr_product_name, arr_modality, list_target_products, target_modality='Naturopathic Doctor', list_sort_associations=['confidence','lift','support'], n_associated_products=10):
+def recommendations(arr_prescription, arr_product_name, arr_modality, list_target_products, 
+                    target_modality='Naturopathic Doctor',
+                    list_sort_associations=['confidence','lift','support'], 
+                    min_confidence_threshold=0.1,
+                    min_lift_threshold=1.0,
+                    min_support_threshold=0.0):
     # define user-defined exception
     class Error(Exception):
         'Base class for other exceptions'
@@ -184,25 +189,24 @@ def recommendations(arr_prescription, arr_product_name, arr_modality, list_targe
     ###########################################################################
     # sort df4 and reset index
     df4_sorted = df4.sort_values(by=list_sort_associations, ascending=False).reset_index(drop=True)
-
+    
+    ###########################################################################
+    # query df4_sorted
+    df_final = df4_sorted[(df4_sorted['confidence'] > min_confidence_threshold) &
+                          (df4_sorted['lift'] > min_lift_threshold) &
+                          (df4_sorted['support'] > min_support_threshold)]
+    
     ###########################################################################
     # get length of list_target_products
     len_list_target_products = len(list_target_products)
-        
+    
     ###########################################################################
-    # set up logic in case the number of rows in df4_sorted < n_associated_products
-    # this is where some errors could occur!
-    if (df4_sorted.shape[0] - len_list_target_products) < n_associated_products:
-        # drop the first n rows (i.e., length of list_products_of_choice)
-        df_associated_items = df4_sorted.iloc[len_list_target_products:]
-        # print message
-        print('Note: Fewer associated products than n_associated_products argument. Showing all {0} associated products in df_associated_items attribute.'.format(df_associated_items.shape[0]))
-    else:
-        df_associated_items = df4_sorted.iloc[len_list_target_products:n_associated_products+len_list_target_products]
-        # print message
-        print('Top {0} associated products found in df_associated_items attribute.'.format(n_associated_products))
-    # set an index in order
+    # get rid of the top n rows
+    df_associated_items = df_final.iloc[len_list_target_products:]
+    # set index
     df_associated_items.index = [x for x in range(1, df_associated_items.shape[0]+1)]
+    # print message
+    print('Check the df_associated_items attribute for associated items meeting selected threshold values')
     
     ###########################################################################
     # define attributes class to return certain attributes from function
