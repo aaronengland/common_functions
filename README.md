@@ -21,3 +21,6 @@ Metric Definitions:
 
 <img src="https://latex.codecogs.com/gif.latex?Lift&space;=&space;\frac{Confidence}{Support}" title="Lift = \frac{Confidence}{Support}" />
 
+How to use the function:
+
+The user passes equal length arrays for prescription [ID], product name, and modality. Note: Each value of these arrays pertains to one prescribed item. 
