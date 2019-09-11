@@ -25,9 +25,10 @@ How to use the function:
 
 Arguments:
 
-- ```arr_prescription```:
-- ```arr_product_name```:
-- ```arr_modality```: 
+- ```arr_prescription```: array of prescription ID for each item prescribed to a patient.
+- ```arr_product_name```: array of product names for each item prescribed to a patient.
+- ```arr_modality```: array of modality types for each item prescribed to a patient.
+Note: Each value of these arrays pertains to one prescribed item and all arrays must be of equal length.
 - ```list_target_products```:
 - ```target_modality```: 
 - ```list_sort_associations```:
@@ -35,9 +36,10 @@ Arguments:
 - ```min_lift_threshold```:
 - ```min_support_threshold```:
 
+Attributes:
 
+- ```df_associated_items```:
 
-The user passes equal length arrays for prescription [ID], product name, and modality. Note: Each value of these arrays pertains to one prescribed item. 
 
 Next, a list of one or more target products is passed for the ```list_target_products``` argument.
 
