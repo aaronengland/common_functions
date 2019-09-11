@@ -42,7 +42,7 @@ Arguments:
 
 Attributes:
 
-- ```df_associated_items```:
+- ```df_associated_items```: data frame of the associated item(s) and the respective metric (i.e., support, confidence, and lift).
 
 
 
