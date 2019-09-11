@@ -35,10 +35,10 @@ Arguments:
 
 - ```list_target_products```: list of one or more target products.
 - ```target_modality```: desired practitioner modality.
-- ```list_sort_associations```: 
-- ```min_confidence_threshold```:
-- ```min_lift_threshold```:
-- ```min_support_threshold```:
+- ```list_sort_associations```: list of metrics (i.e., support, confidence, and/or lift) for which to sort the output.
+- ```min_confidence_threshold```: minimum confidence value to include in output.
+- ```min_lift_threshold```: minimum lift value to include in output.
+- ```min_support_threshold```: minimum support value to include in output.
 
 Attributes:
 
