@@ -11,15 +11,15 @@ The ```recomendations``` function measures the strength of association of each i
 - Lift
 
 **Metric Definitions**:
-- Support: overall probability of an item being prescribed
+- Support: overall probability of an item being prescribed.
 
 <img src="https://latex.codecogs.com/gif.latex?Support&space;=&space;\frac{Prescriptions{_{Item}}}{Prescriptions{_{Total}}}" title="Support = \frac{Prescriptions{_{Item}}}{Prescriptions{_{Total}}}" />
 
-- Confidence: probability of an item being prescribed, given that the ```target_item``` has been prescribed
+- Confidence: probability of an item being prescribed, given that the target item has been prescribed.
 
 <img src="https://latex.codecogs.com/gif.latex?Confidence&space;=&space;\frac{Prescriptions{_{Item}}}{Prescriptions{_{TargetItem}}}" title="Confidence = \frac{Prescriptions{_{Item}}}{Prescriptions{_{TargetItem}}}" />
 
-- Lift: ratio of confidence to support
+- Lift: ratio of confidence to support (i.e., extent to which the probability of an item being prescribed is elevated due to the target item being prescribed).
 
 <img src="https://latex.codecogs.com/gif.latex?Lift&space;=&space;\frac{Confidence}{Support}" title="Lift = \frac{Confidence}{Support}" />
 
