@@ -85,7 +85,6 @@ def recommendations(arr_prescription, arr_product_name, arr_modality, list_targe
         pass
     
     ###########################################################################
-    
     # save length of arrays
     len_arr_prescription = len(arr_prescription)
     len_arr_product_name = len(arr_product_name)
