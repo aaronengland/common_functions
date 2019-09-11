@@ -28,7 +28,9 @@ Arguments:
 - ```arr_prescription```: array of prescription ID for each item prescribed to a patient.
 - ```arr_product_name```: array of product names for each item prescribed to a patient.
 - ```arr_modality```: array of modality types for each item prescribed to a patient.
+
 Note: Each value of these arrays pertains to one prescribed item and all arrays must be of equal length.
+
 - ```list_target_products```:
 - ```target_modality```: 
 - ```list_sort_associations```:
