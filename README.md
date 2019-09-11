@@ -68,7 +68,7 @@ print(example_object.df_associated_items)
 ```
 ---
 
-[Source](https://stackabuse.com/association-rule-mining-via-apriori-algorithm-in-python/)
+[Click here for source](https://stackabuse.com/association-rule-mining-via-apriori-algorithm-in-python/)
 
 
 
