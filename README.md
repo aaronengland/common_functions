@@ -31,9 +31,9 @@ Arguments:
 
 Note: Each value of these arrays pertains to one prescribed item and all arrays must be of equal length.
 
-- ```list_target_products```:
-- ```target_modality```: 
-- ```list_sort_associations```:
+- ```list_target_products```: list of one or more target products.
+- ```target_modality```: desired practitioner modality.
+- ```list_sort_associations```: 
 - ```min_confidence_threshold```:
 - ```min_lift_threshold```:
 - ```min_support_threshold```:
@@ -43,8 +43,6 @@ Attributes:
 - ```df_associated_items```:
 
 
-Next, a list of one or more target products is passed for the ```list_target_products``` argument.
 
-The desired practitioner is assigned to the ```target_modality``` argument.
 
 
