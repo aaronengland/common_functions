@@ -10,7 +10,7 @@ The ```recomendations``` function measures the strength of association of each i
 - Confidence
 - Lift
 
-Metric Definitions:
+**Metric Definitions**:
 - Support: overall probability of an item being prescribed
 
 <img src="https://latex.codecogs.com/gif.latex?Support&space;=&space;\frac{Prescriptions{_{Item}}}{Prescriptions{_{Total}}}" title="Support = \frac{Prescriptions{_{Item}}}{Prescriptions{_{Total}}}" />
@@ -23,7 +23,7 @@ Metric Definitions:
 
 <img src="https://latex.codecogs.com/gif.latex?Lift&space;=&space;\frac{Confidence}{Support}" title="Lift = \frac{Confidence}{Support}" />
 
-How to use the function:
+**How to use the function**:
 
 Arguments:
 
