@@ -34,11 +34,11 @@ Arguments:
 *Note*: Each value of these arrays pertains to one prescribed item and all arrays must be of equal length.
 
 - ```list_target_products```: list of one or more target products.
-- ```target_modality```: desired practitioner modality.
-- ```list_sort_associations```: list of metrics (i.e., support, confidence, and/or lift) for which to sort the output.
-- ```min_confidence_threshold```: minimum confidence value to include in output.
-- ```min_lift_threshold```: minimum lift value to include in output.
-- ```min_support_threshold```: minimum support value to include in output.
+- ```target_modality```: desired practitioner modality (default = 'Naturopathic Doctor').
+- ```list_sort_associations```: list of metrics (i.e., support, confidence, and/or lift) for which to sort the output (default = ['confidence','lift','support']).
+- ```min_confidence_threshold```: minimum confidence value to include in output (default = 0.1).
+- ```min_lift_threshold```: minimum lift value to include in output (default = 1.0).
+- ```min_support_threshold```: minimum support value to include in output (default = 0.0).
 
 Attributes:
 
@@ -48,8 +48,25 @@ Attributes:
 
 **Example**:
 
-```# import dependency```
-```from common_functions import recommendations```
+```
+# import dependency
+from common_functions import recommendations
+
+# apply function
+example_object = recommendations(arr_prescription=df['prescription'], 
+                                 arr_product_name=df['product_name'], 
+                                 arr_modality=df['modality'], 
+                                 list_target_products=['MegaSporeBiotic'], 
+                                 target_modality='Naturopathic Doctor', 
+                                 list_sort_associations=['confidence','lift','support'],
+                                 min_confidence_threshold=0.1,
+                                 min_lift_threshold=10,
+                                 min_support_threshold=0.0)
+
+# print output
+print(example_object.df_associated_items)
+```
+---
 
 
 
