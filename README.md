@@ -35,7 +35,7 @@ Arguments:
 
 - ```list_target_products```: list of one or more target products.
 - ```target_modality```: desired practitioner modality (default = 'Naturopathic Doctor').
-- ```list_sort_associations```: list of metrics (i.e., support, confidence, and/or lift) for which to sort the output (default = ['confidence','lift','support']).
+- ```list_sort_associations```: list of metrics (i.e., support, confidence, and/or lift) for which to sort the output (default = ```['confidence','lift','support']```).
 - ```min_confidence_threshold```: minimum confidence value to include in output (default = 0.1).
 - ```min_lift_threshold```: minimum lift value to include in output (default = 1.0).
 - ```min_support_threshold```: minimum support value to include in output (default = 0.0).
