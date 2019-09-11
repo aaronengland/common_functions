@@ -48,6 +48,10 @@ Attributes:
 
 **Example**:
 
+```# import dependency```
+```from common_functions import recommendations```
+
+
 
 
 
