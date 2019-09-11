@@ -23,4 +23,24 @@ Metric Definitions:
 
 How to use the function:
 
+Arguments:
+
+- ```arr_prescription```:
+- ```arr_product_name```:
+- ```arr_modality```: 
+- ```list_target_products```:
+- ```target_modality```: 
+- ```list_sort_associations```:
+- ```min_confidence_threshold```:
+- ```min_lift_threshold```:
+- ```min_support_threshold```:
+
+
+
 The user passes equal length arrays for prescription [ID], product name, and modality. Note: Each value of these arrays pertains to one prescribed item. 
+
+Next, a list of one or more target products is passed for the ```list_target_products``` argument.
+
+The desired practitioner is assigned to the ```target_modality``` argument.
+
+
