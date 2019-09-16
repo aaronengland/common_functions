@@ -3,6 +3,16 @@ import pandas as pd
 import numpy as np
 import itertools
 
+# define function to get the days between transactions
+def get_days_diff(list_):
+    list_days_diff = [0]
+    for i in range(1, len(list_)):
+        days_diff = (list_[i] - list_[i-1]).days
+        list_days_diff.append(days_diff)
+    # drop the first value (i.e., 0)
+    list_days_diff_final = list_days_diff[1:]
+    return list_days_diff_final
+
 # define ecdf function because it is faster than the built-in one
 def get_ecdf(array, number):
     # find number of values in array less than or equal to number
