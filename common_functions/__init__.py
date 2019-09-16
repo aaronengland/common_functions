@@ -3,6 +3,16 @@ import pandas as pd
 import numpy as np
 import itertools
 
+# define ecdf function because it is faster than the built-in one
+def get_ecdf(array, number):
+    # find number of values in array less than or equal to number
+    n_less_than_equal = len([x for x in array if x <= number])
+    # get length of array
+    length_arr = len(array)
+    # divide n_less_than_equal by length_arr
+    return n_less_than_equal/length_arr
+# validated using example from: https://www.statsmodels.org/devel/generated/statsmodels.distributions.empirical_distribution.ECDF.html    
+
 # get month name from month number
 def get_month_name(month_number):
     if month_number == 1:
@@ -30,16 +40,6 @@ def get_month_name(month_number):
     else:
         return 'Dec'
 
-# define ecdf function because it is faster than the built-in one
-def get_ecdf(array, number):
-    # find number of values in array less than or equal to number
-    n_less_than_equal = len([x for x in array if x <= number])
-    # get length of array
-    length_arr = len(array)
-    # divide n_less_than_equal by length_arr
-    return n_less_than_equal/length_arr
-# validated using example from: https://www.statsmodels.org/devel/generated/statsmodels.distributions.empirical_distribution.ECDF.html    
-    
 # max days in month
 def max_days_month(month_number):
     if month_number == 1:
