@@ -3,6 +3,14 @@ import pandas as pd
 import numpy as np
 import itertools
 
+# define function for days_to_churn
+def days_to_churn(list_, ecdf_start=0, ecdf_threshold=.9):
+    days_to_churn = 0
+    while ecdf_start < ecdf_threshold:
+        days_to_churn += 1
+        ecdf_start = get_ecdf(list_, days_to_churn)
+    return days_to_churn
+
 # define function to get the days between transactions
 def get_days_diff(list_):
     list_days_diff = [0]
