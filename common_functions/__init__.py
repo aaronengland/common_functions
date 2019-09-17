@@ -61,7 +61,7 @@ def get_month_name(month_number):
 # define function to convert df to lists
 def listify(df, group_by):
     # convert df into lists
-    df_grouped = df.groupby('patient_id', as_index=False).agg(lambda x: x.tolist())
+    df_grouped = df.groupby(group_by, as_index=False).agg(lambda x: x.tolist())
     return df_grouped
     
 # max days in month
