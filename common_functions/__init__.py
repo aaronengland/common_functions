@@ -58,6 +58,12 @@ def get_month_name(month_number):
     else:
         return 'Dec'
 
+# define function to convert df to lists
+def listify(df, group_by):
+    # convert df into lists
+    df_grouped = df.groupby('patient_id', as_index=False).agg(lambda x: x.tolist())
+    return df_grouped
+    
 # max days in month
 def max_days_month(month_number):
     if month_number == 1:
