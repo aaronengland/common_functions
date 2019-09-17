@@ -160,7 +160,7 @@ def recommendations(arr_prescription, arr_product_name, arr_modality, list_targe
     df.drop(['prescription'], axis=1, inplace=True)
 
     ###########################################################################
-    # get the number of transactions so we can calculate probability later
+    # get the number of transactions so we can calculate probability (support) later
     n_total_transactions = df.shape[0]
 
     ###########################################################################
@@ -202,7 +202,7 @@ def recommendations(arr_prescription, arr_product_name, arr_modality, list_targe
     df3 = pd.DataFrame(pd.value_counts(list_product_names)).reset_index(level=0, inplace=False)
     # set column names
     df3.columns = ['product_name','prescriptions']
-    # calculate the probability of ordering each product (i.e., confidence_)
+    # calculate the probability of ordering each product (i.e., confidence)
     df3['confidence'] = df3['prescriptions']/n_transactions_target
 
     ###########################################################################
@@ -224,14 +224,11 @@ def recommendations(arr_prescription, arr_product_name, arr_modality, list_targe
                           (df4_sorted['support'] > min_support_threshold)]
     
     ###########################################################################
-    # get length of list_target_products
-    len_list_target_products = len(list_target_products)
-    
-    ###########################################################################
-    # get rid of the top n rows
-    df_associated_items = df_final.iloc[len_list_target_products:]
+    # get rid of rows where product_name is in list_target_products
+    df_associated_items = df_final[~df_final['product_name'].isin(list_target_products)]
     # set index
     df_associated_items.index = [x for x in range(1, df_associated_items.shape[0]+1)]
+    
     # print message
     print('Check the df_associated_items attribute for associated items meeting selected threshold values')
     
