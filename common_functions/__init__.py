@@ -92,7 +92,8 @@ def max_days_month(month_number):
         return 31
 
 # recommendations function
-def recommendations(arr_prescription, arr_product_name, arr_modality, list_target_products, 
+def recommendations(arr_prescription, arr_product_name, arr_modality, list_target_products,
+                    modality=True,
                     target_modality='Naturopathic Doctor',
                     list_sort_associations=['confidence','lift','support'], 
                     min_confidence_threshold=0.1,
@@ -154,8 +155,10 @@ def recommendations(arr_prescription, arr_product_name, arr_modality, list_targe
     df['modality'] = arr_modality
     
     ###########################################################################
-    # subset modality
-    df = df[df['modality'] == target_modality]
+    if modality == True:
+        # subset modality
+        df = df[df['modality'] == target_modality]
+    
     # drop modality
     df.drop(['modality'], axis=1, inplace=True)
 
