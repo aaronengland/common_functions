@@ -4,7 +4,7 @@ import numpy as np
 import itertools
 
 # define function for churn
-def churn(arr_identifier, arr_transaction_date, identifier_name, end_date, transaction_type, min_transaction_threshold=5):
+def churn(arr_identifier, arr_transaction_date, identifier_name, end_date, transaction_type, min_transaction_threshold=5, ecdf_threshold=0.9):
     # string format transaction_type
     transaction_type = 'n_{0}s'.format(transaction_type)
     # create df
@@ -25,7 +25,7 @@ def churn(arr_identifier, arr_transaction_date, identifier_name, end_date, trans
     # get ecdf
     df_grouped_subset['ecdf'] = df_grouped_subset.apply(lambda x: get_ecdf(x['days_diff'], x['days_since_max_trans']), axis=1)
     # get days to churn for each row
-    df_grouped_subset['days_to_churn'] = df_grouped_subset.apply(lambda x: days_to_churn(x['days_diff']), axis=1)
+    df_grouped_subset['days_to_churn'] = df_grouped_subset.apply(lambda x: days_to_churn(x['days_diff'], ecdf_threshold), axis=1)
     # add days_to_churn to max_transaction_date
     df_grouped_subset['predicted_churn_date'] = df_grouped_subset.apply(lambda x: x['max_transaction_date'] + pd.DateOffset(days=x['days_to_churn']), axis=1)
     # drop transaction_date and days_to_churn
