@@ -10,6 +10,8 @@ def churn(arr_identifier, arr_transaction_date, identifier_name, end_date, trans
     # create df
     df = pd.DataFrame({identifier_name: arr_identifier,
                        'transaction_date': arr_transaction_date})
+    # make sure it is sorted ascending by transaction_date
+    df = df.sort_values(by='transaction_date', ascending=True)
     # group by arr_identifier_name and add all transaction dates to list
     df_grouped = listify(df=df, group_by=identifier_name)
     # get number of products
