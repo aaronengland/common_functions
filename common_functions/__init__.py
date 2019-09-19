@@ -3,6 +3,36 @@ import pandas as pd
 import numpy as np
 import itertools
 
+# define function for churn
+def churn(arr_identifier, arr_transaction_date, identifier_name, end_date, transaction_type, min_transaction_threshold=5):
+    # string format transaction_type
+    transaction_type = 'n_{0}s'.format(transaction_type)
+    # create df
+    df = pd.DataFrame({identifier_name: arr_identifier,
+                       'transaction_date': arr_transaction_date})
+    # group by arr_identifier_name and add all transaction dates to list
+    df_grouped = listify(df=df, group_by=identifier_name)
+    # get number of products
+    df_grouped[transaction_type] = df_grouped.apply(lambda x: len(x['transaction_date']), axis=1)
+    # drop every row where there were fewer than min_transaction_threshold
+    df_grouped_subset = df_grouped[df_grouped[transaction_type] >= min_transaction_threshold]
+    # get days diff for each row
+    df_grouped_subset['days_diff'] = df_grouped_subset.apply(lambda x: get_days_diff(x['transaction_date']), axis=1)
+    # get the max transaction_date date
+    df_grouped_subset['max_transaction_date'] = df_grouped_subset.apply(lambda x: np.max(x['transaction_date']), axis=1)
+    # get the days between max_transaction_date and end_date
+    df_grouped_subset['days_since_max_trans'] = df_grouped_subset.apply(lambda x: (end_date - x['max_transaction_date']).days, axis=1)
+    # get ecdf
+    df_grouped_subset['ecdf'] = df_grouped_subset.apply(lambda x: get_ecdf(x['days_diff'], x['days_since_max_trans']), axis=1)
+    # get days to churn for each row
+    df_grouped_subset['days_to_churn'] = df_grouped_subset.apply(lambda x: days_to_churn(x['days_diff']), axis=1)
+    # add days_to_churn to max_transaction_date
+    df_grouped_subset['predicted_churn_date'] = df_grouped_subset.apply(lambda x: x['max_transaction_date'] + pd.DateOffset(days=x['days_to_churn']), axis=1)
+    # drop transaction_date and days_to_churn
+    df_grouped_subset.drop(['transaction_date','days_to_churn'], axis=1, inplace=True)
+    # return df_grouped_subset
+    return df_grouped_subset
+
 # define function for days_to_churn
 def days_to_churn(list_, ecdf_start=0, ecdf_threshold=.9):
     days_to_churn = 0
