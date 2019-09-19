@@ -22,6 +22,8 @@ def churn(arr_identifier, arr_transaction_date, identifier_name, end_date, trans
     df_grouped_subset['min_transaction_date'] = df_grouped_subset.apply(lambda x: np.min(x['transaction_date']), axis=1)
     # get the max transaction_date date
     df_grouped_subset['max_transaction_date'] = df_grouped_subset.apply(lambda x: np.max(x['transaction_date']), axis=1)
+    # get the median days_diff
+    df_grouped_subset['mdn_days_diff'] = df_grouped_subset.apply(lambda x: np.median(x['days_diff']), axis=1)
     # get the days between max_transaction_date and end_date
     df_grouped_subset['days_since_max_trans'] = df_grouped_subset.apply(lambda x: (end_date - x['max_transaction_date']).days, axis=1)
     # get ecdf
