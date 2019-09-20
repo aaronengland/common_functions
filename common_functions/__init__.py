@@ -31,7 +31,7 @@ def churn(arr_identifier, arr_transaction_date, identifier_name, end_date, min_t
     # get days to churn for each row
     df_grouped_subset['days_to_churn'] = df_grouped_subset.apply(lambda x: days_to_churn(x['days_diff'], ecdf_threshold), axis=1)
     # add days_to_churn to max_transaction_date
-    df_grouped_subset['predicted_churn_date'] = df_grouped_subset.apply(lambda x: (x['max_transaction_date'] + pd.DateOffset(days=x['days_to_churn'])).date, axis=1)
+    df_grouped_subset['predicted_churn_date'] = df_grouped_subset.apply(lambda x: (x['max_transaction_date'] + pd.DateOffset(days=x['days_to_churn'])).date(), axis=1)
     # drop transaction_date and days_to_churn
     df_grouped_subset.drop(['transaction_date','days_to_churn'], axis=1, inplace=True)
     # return df_grouped_subset
