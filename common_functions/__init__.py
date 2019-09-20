@@ -15,7 +15,7 @@ def churn(arr_identifier, arr_transaction_date, identifier_name, end_date, min_t
     # get number of products
     df_grouped['n_transactions'] = df_grouped.apply(lambda x: len(x['transaction_date']), axis=1)
     # drop every row where there were fewer than min_transaction_threshold
-    df_grouped_subset = df_grouped[df_grouped[transaction_type] >= min_transaction_threshold]
+    df_grouped_subset = df_grouped[df_grouped['n_transactions'] >= min_transaction_threshold]
     # get days diff for each row
     df_grouped_subset['days_diff'] = df_grouped_subset.apply(lambda x: get_days_diff(x['transaction_date']), axis=1)
     # get the min transaction_date
