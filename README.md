@@ -39,6 +39,7 @@ df_customer_churn = churn(arr_identifier=df_customer_transactions['customer_id']
 
 
 ---
+## recommendations
 
 The `recomendations` function measures the strength of association of each item with a target item or list of target items. Association is determined using 3 metrics:
 - Support
