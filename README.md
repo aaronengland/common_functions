@@ -56,9 +56,27 @@ days_to_churn = days_to_churn(list_=list_of_days_between_transactions,
 
 ---
 
+## get_days_diff
+
+The `get_days_diff` function takes a list of `datetime.date` transaction dates, calculates the days between each transaction, and returns the days between transactions as a list.
+
+Arguments:
+- `list_`: list of `datetime.date` transaction dates.
+
+Example:
+
+```
+from common_functions import get_days_diff
+
+# get the days between transactions
+list_days_between_transactions = get_days_diff(list_=list_transaction_dates)
+```
+
+---
+
 ## get_ecdf
 
-The `get_ecdf` function 
+The `get_ecdf` function takes an array of days between orders
 
 
 
