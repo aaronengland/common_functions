@@ -1,5 +1,5 @@
 # common_functions
-Contains functions to use to help keep code concise as well as a recommender system.
+Contains functions to use to help keep code concise as well as a recommender system and churn function.
 
 To install, use: `pip install git+https://github.com/aaronengland/common_functions.git`
 
