@@ -33,8 +33,32 @@ df_customer_churn = churn(arr_identifier=df_customer_transactions['customer_id']
 
 ---
 
+## days_to_churn
 
+The `days_to_churn` function determines the number of days since the most recent transaction date for which a customer will reach a user-defined ECDF threshold.
 
+Arguments:
+- `list_`: list of days between transactions.
+- `ecdf_start`: beginning value of ECDF (defualt=0).
+- `ecdf_threshold`: ECDF threshold to determine whether or not the ID has churned (default=0.9)
+
+Example:
+
+```
+from common_functions import days_to_churn
+
+# calculate days to churn
+days_to_churn = days_to_churn(list_=list_of_days_between_transactions,
+                              ecdf_start=0, 
+                              ecdf_threshold=.9)
+
+```
+
+---
+
+## get_ecdf
+
+The `get_ecdf` function 
 
 
 
