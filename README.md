@@ -1,11 +1,46 @@
 # common_functions
 Contains functions to use to help keep code concise as well as a recommender system.
 
-To install, use: ```pip install git+https://github.com/aaronengland/common_functions.git```
+To install, use: `pip install git+https://github.com/aaronengland/common_functions.git`
 
 ---
 
-The ```recomendations``` function measures the strength of association of each item with a target item or list of target items. Association is determined using 3 metrics:
+## churn
+
+The `churn` function uses the Empirical Cumulative Distribution Function (ECDF) to determine the probability of churn based on the number of days between transactions. It returns a data frame containing columns for number of transactions (`n_transactions`), a list of days between transactions (`days_diff`), minimum transaction date (`min_transaction_date`), maximum transaction date (`max_transaction_date`), median days between orders (`mdn_days_diff`), days between maximum transaction date and `end_date` (`days_since_max_trans`), probability of churn (`ecdf`), and predicted churn date (`predicted_churn_date`).
+
+Arguments:
+- `arr_identifier`: array of IDs for which we will be calculating churn (example: Customer ID).
+- `arr_transaction_date`: array of `datetime.date` for every transaction.
+- `identifier_name`: name of the `arr_identifier` column.
+- `end_date`: cutoff `datetime.date` for determining probability of churn. 
+- `min_transaction_threshold`: minimum number of transactions (default=5).
+- `ecdf_threshold`: ECDF threshold to determine whether or not the ID has churned (default=0.9).
+
+Example:
+
+```
+from common_functions import churn
+
+# get churn info
+df_customer_churn = churn(arr_identifier=df_customer_transactions['customer_id'], 
+                          arr_transaction_date=df_customer_transactions['transaction_date'], 
+                          identifier_name='customer_id', 
+                          end_date=datetime.date.today(), 
+                          min_transaction_threshold=5,
+                          ecdf_threshold=0.9)
+```
+
+---
+
+
+
+
+
+
+---
+
+The `recomendations` function measures the strength of association of each item with a target item or list of target items. Association is determined using 3 metrics:
 - Support
 - Confidence
 - Lift
