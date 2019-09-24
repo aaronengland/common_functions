@@ -95,6 +95,53 @@ probability_of_churn = get_ecdf(array=list_days_between_transactions, number=10)
 
 ---
 
+## get_month_name
+
+To get the name of the month given the month number, use the `get_month_name` function.
+
+Arguments:
+- `month_number`: number of month (ex: 1 will return Jan).
+
+Example:
+
+```
+from common_functions import get_month_name
+
+# get month name
+month_name = get_month_name(month_number=1)
+```
+
+---
+
+## listify
+
+The `listify` function groups a data frame by a user-defined variable and creates a list for each column for each group.
+
+Arguments:
+- `df`: data frame for which to group.
+- `group_by`: variable for which to group.
+
+Example:
+
+```
+from common_functions import listify
+
+# convert data frame into grouped lists
+df_grouped_lists = listify(df=df,
+                           group_by='customer_id')
+```
+
+---
+
+
+
+
+
+
+
+
+
+
 
 ---
 ## recommendations
