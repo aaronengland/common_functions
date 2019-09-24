@@ -216,7 +216,7 @@ example_object = recommendations(arr_prescription=df['prescription'],
 print(example_object.df_associated_items)
 ```
 
-[Click here for source](https://stackabuse.com/association-rule-mining-via-apriori-algorithm-in-python/)
+[Source](https://stackabuse.com/association-rule-mining-via-apriori-algorithm-in-python/)
 ---
 
 
