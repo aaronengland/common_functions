@@ -133,7 +133,13 @@ df_grouped_lists = listify(df=df,
 
 ---
 
+## max_days_month
 
+The `max_days_month` function returns the number of days in a user-defined month number.
+
+Arguments:
+- `month_number`: number of month (ex: January is 1).
+- `leap_year`: a boolean of whether or not it is a leap year (default=False).
 
 
 
