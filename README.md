@@ -141,15 +141,19 @@ Arguments:
 - `month_number`: number of month (ex: January is 1).
 - `leap_year`: a boolean of whether or not it is a leap year (default=False).
 
+Example:
 
+```
+from common_functions import max_days_month
 
+# get number of days in the month
+n_days_in_month = max_days_month(month_number=2
+                                 leap_year=False)
 
-
-
-
-
+```
 
 ---
+
 ## recommendations
 
 The `recomendations` function measures the strength of association of each item with a target item or list of target items. Association is determined using 3 metrics:
