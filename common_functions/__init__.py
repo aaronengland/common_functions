@@ -92,6 +92,204 @@ def get_month_name(month_number):
     else:
         return 'Dec'
 
+# define function to get best transformation
+def get_transformation(list_year, list_prop_total, list_prop_days_in_month, list_ebd, random_state=42, test_size=0.33):
+    # put all lists into df
+    df = pd.DataFrame({'year': list_year,
+                       'proportion_total': list_prop_total,
+                       'proportion_days_in_month': list_prop_days_in_month,
+                       'ebd': list_ebd})
+
+    # now we will shuffle our rows in X
+    df_shuffled = shuffle(df, random_state=random_state)
+    
+    # get today's month number because we won't use year as a predictor if we are in January
+    month_today = datetime.date.today().month
+
+    # split into X and y (in January we will not use year as a predictor because all dates have same year)
+    # X
+    if month_today == 1:
+        X = df_shuffled[['proportion_days_in_month','ebd']]
+    else:
+        X = df_shuffled[['proportion_days_in_month','year','ebd']]
+    # y
+    y = df_shuffled['proportion_total']
+    
+    # instantiate model with default hyperparameters
+    model = LinearRegression()
+    
+    # we will transform proportion_days_in_month
+    list_transformations = ['none','square','cube','log','natural_log','square_root','cube_root']
+    # iterate through each transformation and save the r squared vals
+    list_r_squared = []
+    list_correlation = []
+    for transformation in list_transformations:
+        # no transformation
+        if transformation == 'none':
+            # split into testing/training data
+            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
+            # fit model
+            model.fit(X_train, y_train)
+            # generate predictions on the test data
+            yhat = model.predict(X_test)
+            # get r^2
+            r_squared = metrics.r2_score(y_test, yhat)
+            # append to list_r_squared
+            list_r_squared.append(r_squared)
+            # get correlation between yhat and y_test
+            correlation = pearsonr(y_test, yhat)[0]
+            # append to list_correlation
+            list_correlation.append(correlation)
+        # square
+        elif transformation == 'square':
+            # create copy of X
+            X_copy = X.copy()
+            # transform prop_days_in_month
+            X_copy['proportion_days_in_month'] = X.apply(lambda x: x['proportion_days_in_month']**2, axis=1)
+            # split into testing/training data
+            X_train, X_test, y_train, y_test = train_test_split(X_copy, y, test_size=test_size, random_state=random_state)
+            # fit model
+            model.fit(X_train, y_train)
+            # generate predictions on the test data
+            yhat = model.predict(X_test)
+            # get r^2
+            r_squared = metrics.r2_score(y_test, yhat)
+            # append to list_r_squared
+            list_r_squared.append(r_squared)
+            # get correlation between yhat and y_test
+            correlation = pearsonr(y_test, yhat)[0]
+            # append to list_correlation
+            list_correlation.append(correlation)
+        # cube
+        elif transformation == 'cube':
+            # create copy of X
+            X_copy = X.copy()
+            # transform prop_days_in_month
+            X_copy['proportion_days_in_month'] = X.apply(lambda x: x['proportion_days_in_month']**3, axis=1)
+            # split into testing/training data
+            X_train, X_test, y_train, y_test = train_test_split(X_copy, y, test_size=test_size, random_state=random_state)
+            # fit model
+            model.fit(X_train, y_train)
+            # generate predictions on the test data
+            yhat = model.predict(X_test)
+            # get r^2
+            r_squared = metrics.r2_score(y_test, yhat)
+            # append to list_r_squared
+            list_r_squared.append(r_squared)
+            # get correlation between yhat and y_test
+            correlation = pearsonr(y_test, yhat)[0]
+            # append to list_correlation
+            list_correlation.append(correlation)
+        # log
+        elif transformation == 'log':
+            # create copy of X
+            X_copy = X.copy()
+            # transform prop_days_in_month
+            X_copy['proportion_days_in_month'] = X_copy.apply(lambda x: np.log10(x['proportion_days_in_month']), axis=1)
+            # split into testing/training data
+            X_train, X_test, y_train, y_test = train_test_split(X_copy, y, test_size=test_size, random_state=random_state)
+            # fit model
+            model.fit(X_train, y_train)
+            # generate predictions on the test data
+            yhat = model.predict(X_test)
+            # get r^2
+            r_squared = metrics.r2_score(y_test, yhat)
+            # append to list_r_squared
+            list_r_squared.append(r_squared)
+            # get correlation between yhat and y_test
+            correlation = pearsonr(y_test, yhat)[0]
+            # append to list_correlation
+            list_correlation.append(correlation)
+        # natural log
+        elif transformation == 'natural_log':
+            # create copy of X
+            X_copy = X.copy()
+            # transform prop_days_in_month
+            X_copy['proportion_days_in_month'] = X_copy.apply(lambda x: np.log(x['proportion_days_in_month']), axis=1)
+            # split into testing/training data
+            X_train, X_test, y_train, y_test = train_test_split(X_copy, y, test_size=test_size, random_state=random_state)
+            # fit model
+            model.fit(X_train, y_train)
+            # generate predictions on the test data
+            yhat = model.predict(X_test)
+            # get r^2
+            r_squared = metrics.r2_score(y_test, yhat)
+            # append to list_r_squared
+            list_r_squared.append(r_squared)
+            # get correlation between yhat and y_test
+            correlation = pearsonr(y_test, yhat)[0]
+            # append to list_correlation
+            list_correlation.append(correlation)
+        # square root
+        elif transformation == 'square_root':
+            # create copy of X
+            X_copy = X.copy()
+            # transform prop_days_in_month
+            X_copy['proportion_days_in_month'] = X_copy.apply(lambda x: x['proportion_days_in_month']**(1/2), axis=1)
+            # split into testing/training data
+            X_train, X_test, y_train, y_test = train_test_split(X_copy, y, test_size=test_size, random_state=random_state)
+            # fit model
+            model.fit(X_train, y_train)
+            # generate predictions on the test data
+            yhat = model.predict(X_test)
+            # get r^2
+            r_squared = metrics.r2_score(y_test, yhat)
+            # append to list_r_squared
+            list_r_squared.append(r_squared)
+            # get correlation between yhat and y_test
+            correlation = pearsonr(y_test, yhat)[0]
+            # append to list_correlation
+            list_correlation.append(correlation)
+        # cube root
+        else:
+            # create copy of X
+            X_copy = X.copy()
+            # transform prop_days_in_month
+            X_copy['proportion_days_in_month'] = X_copy.apply(lambda x: x['proportion_days_in_month']**(1/3), axis=1)
+            # split into testing/training data
+            X_train, X_test, y_train, y_test = train_test_split(X_copy, y, test_size=test_size, random_state=random_state)
+            # fit model
+            model.fit(X_train, y_train)
+            # generate predictions on the test data
+            yhat = model.predict(X_test)
+            # get r^2
+            r_squared = metrics.r2_score(y_test, yhat)
+            # append to list_r_squared
+            list_r_squared.append(r_squared)
+            # get correlation between yhat and y_test
+            correlation = pearsonr(y_test, yhat)[0]
+            # append to list_correlation
+            list_correlation.append(correlation)
+        
+    # put lists into new df
+    df_results = pd.DataFrame({'transformation': list_transformations,
+                               'r_squared': list_r_squared,
+                               'pearson': list_correlation})
+            
+    # sort df results
+    df_results_sorted = df_results.sort_values(by=['r_squared','pearson'], ascending=False)
+            
+    # get the top index of transformation
+    best_transformation = df_results_sorted['transformation'].iloc[0]
+    
+    # get r_squared
+    best_r_squared = df_results_sorted['r_squared'].iloc[0]
+    
+    # get correlation
+    best_correlation = df_results_sorted['pearson'].iloc[0]
+    
+    class attributes:
+        def __init__(self, df_results_sorted, best_transformation, best_r_squared, best_correlation):
+            self.df_results_sorted = df_results_sorted
+            self.best_transformation = best_transformation
+            self.best_r_squared = best_r_squared
+            self.best_correlation = best_correlation
+    # save as a returnable object
+    x = attributes(df_results_sorted, best_transformation, best_r_squared, best_correlation)
+    return x
+    
+    
+    
 # define function to convert df to lists
 def listify(df, group_by):
     # convert df into lists
