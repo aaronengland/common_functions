@@ -309,6 +309,10 @@ def get_monthly_predictions_yesterday(list_year, list_prop_total, list_prop_days
     best_correlation = df_results_sorted['pearson'].iloc[0]
     
     ######### APPLY TO CURRENT MONTH BENCHMARK GOAL AS OF YESTERDAY ###########
+    # get today's date
+    date_today = datetime.date.today() 
+    # get yesterday's date
+    date_yesterday = (date_today - pd.DateOffset(days=1)).date()
     # get yesterday year 
     year_yesterday = date_yesterday.year
     # get yesterday month, so we can get the number of days in the month
