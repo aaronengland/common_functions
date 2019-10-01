@@ -6,6 +6,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn import metrics
 from scipy.stats import pearsonr
 from sklearn.utils import shuffle
+from sklearn.model_selection import train_test_split
 import datetime
 
 # define function for churn
