@@ -2,8 +2,10 @@
 import pandas as pd
 import numpy as np
 import itertools
+from sklearn.linear_model import LinearRegression
+from sklearn import metrics
+from scipy.stats import pearsonr
 from sklearn.utils import shuffle
-
 
 # define function for churn
 def churn(arr_identifier, arr_transaction_date, identifier_name, end_date, min_transaction_threshold=5, ecdf_threshold=0.9):
