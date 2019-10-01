@@ -98,8 +98,8 @@ def get_month_name(month_number):
     else:
         return 'Dec'
 
-# define function to get best transformation
-def get_transformation(list_year, list_prop_total, list_prop_days_in_month, list_ebd, random_state=42, test_size=0.33):
+# define function to get predictions as of yesterday
+def get_monthly_predictions_yesterday(list_year, list_prop_total, list_prop_days_in_month, list_ebd, df_ebd, year_max_in_model, goal_yesterday_month, random_state=42, test_size=0.33):
     # put all lists into df
     df = pd.DataFrame({'year': list_year,
                        'proportion_total': list_prop_total,
@@ -120,22 +120,24 @@ def get_transformation(list_year, list_prop_total, list_prop_days_in_month, list
         X = df_shuffled[['proportion_days_in_month','year','ebd']]
     # y
     y = df_shuffled['proportion_total']
-    
-    # instantiate model with default hyperparameters
-    model = LinearRegression()
-    
+        
     # we will transform proportion_days_in_month
     list_transformations = ['none','square','cube','log','natural_log','square_root','cube_root']
     # iterate through each transformation and save the r squared vals
     list_r_squared = []
     list_correlation = []
+    list_model = []
     for transformation in list_transformations:
         # no transformation
         if transformation == 'none':
+            # instantiate model with default hyperparameters
+            model = LinearRegression()
             # split into testing/training data
             X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
             # fit model
             model.fit(X_train, y_train)
+            # append to list
+            list_model.append(model)
             # generate predictions on the test data
             yhat = model.predict(X_test)
             # get r^2
@@ -148,14 +150,18 @@ def get_transformation(list_year, list_prop_total, list_prop_days_in_month, list
             list_correlation.append(correlation)
         # square
         elif transformation == 'square':
+            # instantiate model with default hyperparameters
+            model = LinearRegression()
             # create copy of X
             X_copy = X.copy()
             # transform prop_days_in_month
-            X_copy['proportion_days_in_month'] = X.apply(lambda x: x['proportion_days_in_month']**2, axis=1)
+            X_copy['proportion_days_in_month'] = X_copy.apply(lambda x: x['proportion_days_in_month']**2, axis=1)
             # split into testing/training data
             X_train, X_test, y_train, y_test = train_test_split(X_copy, y, test_size=test_size, random_state=random_state)
             # fit model
             model.fit(X_train, y_train)
+            # append to list
+            list_model.append(model)
             # generate predictions on the test data
             yhat = model.predict(X_test)
             # get r^2
@@ -168,14 +174,18 @@ def get_transformation(list_year, list_prop_total, list_prop_days_in_month, list
             list_correlation.append(correlation)
         # cube
         elif transformation == 'cube':
+            # instantiate model with default hyperparameters
+            model = LinearRegression()
             # create copy of X
             X_copy = X.copy()
             # transform prop_days_in_month
-            X_copy['proportion_days_in_month'] = X.apply(lambda x: x['proportion_days_in_month']**3, axis=1)
+            X_copy['proportion_days_in_month'] = X_copy.apply(lambda x: x['proportion_days_in_month']**3, axis=1)
             # split into testing/training data
             X_train, X_test, y_train, y_test = train_test_split(X_copy, y, test_size=test_size, random_state=random_state)
             # fit model
             model.fit(X_train, y_train)
+            # append to list
+            list_model.append(model)
             # generate predictions on the test data
             yhat = model.predict(X_test)
             # get r^2
@@ -188,6 +198,8 @@ def get_transformation(list_year, list_prop_total, list_prop_days_in_month, list
             list_correlation.append(correlation)
         # log
         elif transformation == 'log':
+            # instantiate model with default hyperparameters
+            model = LinearRegression()
             # create copy of X
             X_copy = X.copy()
             # transform prop_days_in_month
@@ -196,6 +208,8 @@ def get_transformation(list_year, list_prop_total, list_prop_days_in_month, list
             X_train, X_test, y_train, y_test = train_test_split(X_copy, y, test_size=test_size, random_state=random_state)
             # fit model
             model.fit(X_train, y_train)
+            # append to list
+            list_model.append(model)
             # generate predictions on the test data
             yhat = model.predict(X_test)
             # get r^2
@@ -208,6 +222,8 @@ def get_transformation(list_year, list_prop_total, list_prop_days_in_month, list
             list_correlation.append(correlation)
         # natural log
         elif transformation == 'natural_log':
+            # instantiate model with default hyperparameters
+            model = LinearRegression()
             # create copy of X
             X_copy = X.copy()
             # transform prop_days_in_month
@@ -216,6 +232,8 @@ def get_transformation(list_year, list_prop_total, list_prop_days_in_month, list
             X_train, X_test, y_train, y_test = train_test_split(X_copy, y, test_size=test_size, random_state=random_state)
             # fit model
             model.fit(X_train, y_train)
+            # append to list
+            list_model.append(model)
             # generate predictions on the test data
             yhat = model.predict(X_test)
             # get r^2
@@ -228,6 +246,8 @@ def get_transformation(list_year, list_prop_total, list_prop_days_in_month, list
             list_correlation.append(correlation)
         # square root
         elif transformation == 'square_root':
+            # instantiate model with default hyperparameters
+            model = LinearRegression()
             # create copy of X
             X_copy = X.copy()
             # transform prop_days_in_month
@@ -236,6 +256,8 @@ def get_transformation(list_year, list_prop_total, list_prop_days_in_month, list
             X_train, X_test, y_train, y_test = train_test_split(X_copy, y, test_size=test_size, random_state=random_state)
             # fit model
             model.fit(X_train, y_train)
+            # append to list
+            list_model.append(model)
             # generate predictions on the test data
             yhat = model.predict(X_test)
             # get r^2
@@ -248,6 +270,8 @@ def get_transformation(list_year, list_prop_total, list_prop_days_in_month, list
             list_correlation.append(correlation)
         # cube root
         else:
+            # instantiate model with default hyperparameters
+            model = LinearRegression()
             # create copy of X
             X_copy = X.copy()
             # transform prop_days_in_month
@@ -256,6 +280,8 @@ def get_transformation(list_year, list_prop_total, list_prop_days_in_month, list
             X_train, X_test, y_train, y_test = train_test_split(X_copy, y, test_size=test_size, random_state=random_state)
             # fit model
             model.fit(X_train, y_train)
+            # append to list
+            list_model.append(model)
             # generate predictions on the test data
             yhat = model.predict(X_test)
             # get r^2
@@ -270,28 +296,107 @@ def get_transformation(list_year, list_prop_total, list_prop_days_in_month, list
     # put lists into new df
     df_results = pd.DataFrame({'transformation': list_transformations,
                                'r_squared': list_r_squared,
-                               'pearson': list_correlation})
+                               'pearson': list_correlation,
+                               'model': list_model})
             
     # sort df results
     df_results_sorted = df_results.sort_values(by=['r_squared','pearson'], ascending=False)
-            
     # get the top index of transformation
     best_transformation = df_results_sorted['transformation'].iloc[0]
-    
     # get r_squared
     best_r_squared = df_results_sorted['r_squared'].iloc[0]
-    
     # get correlation
     best_correlation = df_results_sorted['pearson'].iloc[0]
     
+    ######### APPLY TO CURRENT MONTH BENCHMARK GOAL AS OF YESTERDAY ###########
+    # get yesterday year 
+    year_yesterday = date_yesterday.year
+    # get yesterday month, so we can get the number of days in the month
+    month_yesterday = date_yesterday.month
+    # get the number of days in the month
+    days_in_month_yesterday = max_days_month(month_yesterday)   
+    
+    # create list counting from 1 to max days in yesterday's month
+    list_days_in_month_yesterday = list(range(1, days_in_month_yesterday+1))
+    # year
+    list_year = [year_yesterday for x in list_days_in_month_yesterday]
+    # month
+    list_month = [month_yesterday for x in list_days_in_month_yesterday]
+    # put into df
+    df_yesterday = pd.DataFrame({'year': list_year,
+                                 'month': list_month,
+                                 'day': list_days_in_month_yesterday})
+    
+    # join df_yesterday and df_ebd
+    df_yesterday_ebd = pd.merge(left=df_yesterday, right=df_ebd,
+                                left_on=['year','month','day'],
+                                right_on=['year','month','day'],
+                                how='left')
+    
+    # convert year to 1 or 0
+    df_yesterday_ebd['year'] = df_yesterday_ebd.apply(lambda x: 1 if x['year'] == year_max_in_model else 0, axis=1) # we should always have 1s here except in january when we will not be using year as a predictor
+    # create a col days_in_mo
+    df_yesterday_ebd['days_in_mo'] = days_in_month_yesterday
+    # get proportion of days in mo
+    df_yesterday_ebd['proportion_days_in_month'] = df_yesterday_ebd['day']/df_yesterday_ebd['days_in_mo']
+    # drop month, day, and days_in_mo
+    df_yesterday_ebd.drop(['month','day','days_in_mo'], axis=1, inplace=True)
+    
+    # reorder columns so they match with X
+    df_yesterday_ebd = df_yesterday_ebd[['proportion_days_in_month','year','ebd']]
+
+    # transform proportion_days_in_month based on best transformation
+    if best_transformation == 'none':
+        # bring in model
+        model = df_results['model'].iloc[0]
+        # transform
+        df_yesterday_ebd['proportion_days_in_month'] = df_yesterday_ebd['proportion_days_in_month']
+    elif best_transformation == 'square':
+        # bring in model
+        model = df_results['model'].iloc[1]
+        # transform
+        df_yesterday_ebd['proportion_days_in_month'] = df_yesterday_ebd.apply(lambda x: x['proportion_days_in_month']**2, axis=1)
+    elif best_transformation == 'cube':
+        # bring in model
+        model = df_results['model'].iloc[2]
+        # transform
+        df_yesterday_ebd['proportion_days_in_month'] = df_yesterday_ebd.apply(lambda x: x['proportion_days_in_month']**3, axis=1)
+    elif best_transformation == 'log':
+        # bring in model
+        model = df_results['model'].iloc[3]
+        # transform
+        df_yesterday_ebd['proportion_days_in_month'] = df_yesterday_ebd.apply(lambda x: np.log10(x['proportion_days_in_month']), axis=1)
+    elif best_transformation == 'natural_log':
+        # bring in model
+        model = df_results['model'].iloc[4]
+        # transform
+        df_yesterday_ebd['proportion_days_in_month'] = df_yesterday_ebd.apply(lambda x: np.log(x['proportion_days_in_month']), axis=1)
+    elif best_transformation == 'square_root':
+        # bring in model
+        model = df_results['model'].iloc[5]
+        # transform
+        df_yesterday_ebd['proportion_days_in_month'] = df_yesterday_ebd.apply(lambda x: x['proportion_days_in_month']**(1/2), axis=1)
+    else: # cube root
+        # bring in model
+        model = df_results['model'].iloc[6]
+        # transform
+        df_yesterday_ebd['proportion_days_in_month'] = df_yesterday_ebd.apply(lambda x: x['proportion_days_in_month']**(1/3), axis=1)
+        
+    # generate predictions using our model
+    yhat_yesterday = model.predict(df_yesterday_ebd)
+    
+    # multiply each of those by goal_yesterday_month
+    list_predicted_daily_total_yesterday = [x*goal_yesterday_month for x in yhat_yesterday] # yesterday's month benchmarking
+
     class attributes:
-        def __init__(self, df_results_sorted, best_transformation, best_r_squared, best_correlation):
+        def __init__(self, df_results_sorted, best_transformation, best_r_squared, best_correlation, list_predicted_daily_total_yesterday):
             self.df_results_sorted = df_results_sorted
             self.best_transformation = best_transformation
             self.best_r_squared = best_r_squared
             self.best_correlation = best_correlation
+            self.list_predicted_daily_total_yesterday = list_predicted_daily_total_yesterday
     # save as a returnable object
-    x = attributes(df_results_sorted, best_transformation, best_r_squared, best_correlation)
+    x = attributes(df_results_sorted, best_transformation, best_r_squared, best_correlation, list_predicted_daily_total_yesterday)
     return x
     
     
