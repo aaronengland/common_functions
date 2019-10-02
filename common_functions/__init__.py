@@ -438,6 +438,25 @@ def max_days_month(month_number):
     else:
         return 31
 
+# define function for pulling data for rolling year
+def prep_rolling_year_data_pull(date_today):
+    # get yesterday's date
+    date_yesterday = (date_today - pd.DateOffset(days=1)).date()
+    # get start dates
+    # get 12 months before date_yesterday
+    date_1_year_before_yesterday = (date_yesterday - pd.DateOffset(months=12)).date()
+    # begin year
+    year_begin = date_1_year_before_yesterday.year
+    # begin month
+    month_begin = date_1_year_before_yesterday.month
+    # get ending dates
+    date_previous_month = (date_yesterday - pd.DateOffset(months=1)).date()
+    # year
+    year_end = date_previous_month.year
+    # return year_begin, month_begin, year_end
+    return year_begin, month_begin, year_end    
+    
+    
 # recommendations function
 def recommendations(arr_prescription, arr_product_name, arr_modality, list_target_products,
                     modality=True,
