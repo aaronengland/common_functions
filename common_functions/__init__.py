@@ -403,7 +403,68 @@ def get_monthly_predictions_yesterday(list_year, list_prop_total, list_prop_days
     # save as a returnable object
     x = attributes(df_results_sorted, best_transformation, best_r_squared, best_correlation, list_predicted_daily_total_yesterday)
     return x
-  
+
+# define function for msrp benchmarking plots
+def get_msrp_benchmarking_plots(country,
+                                name_month_yesterday,
+                                year_yesterday,
+                                arr_current_day,
+                                arr_current_cum_sum,
+                                list_days_in_month_yesterday,
+                                list_predictions_yesterday,
+                                name_month_previous_month,
+                                year_previous_month,
+                                list_prop_days_yesterday_previous_month,
+                                arr_previous_month_actual_day,
+                                arr_previous_month_actual_cum_sum):
+    # create ticks (top)
+    # current/actual
+    list_top_yticks_current = [x/1000000 for x in df_current['cum_sum_msrp']]
+    # predicted
+    list_top_yticks_benchmark = [x/1000000 for x in list_predictions_yesterday]
+    # create ticks (bottom)
+    list_bottom_yticks_prev_month = [x/1000000 for x in df_actual_previous_month['monthly_cum_sum']]
+    
+    # create plot
+    fig_subplots, ax = plt.subplots(nrows=2, figsize=(9,9))
+    # top
+    ax[0].set_title('Fullscript {0} - Actual Cumulative MSRP by Day {1} {2} (blue) vs Goal Benchmark {1} {2} (orange)'.format(country, 
+                                                                                                                              name_month_yesterday, 
+                                                                                                                              year_yesterday))
+    # current month actual
+    ax[0].plot(arr_current_day, list_top_yticks_current, label='Current Month Actual')
+    # current month benchmark
+    ax[0].plot(list_days_in_month_yesterday, list_top_yticks_benchmark, label='Current Month Benchmark', linestyle=':')
+    # set x ticks
+    ax[0].set_xticks(list_days_in_month_yesterday)
+    # x label
+    ax[0].set_xlabel('Day of Month')
+    # ylabel
+    ax[0].set_ylabel('MSRP (USD, in millions)')
+    # legend
+    ax[0].legend(loc='upper left')
+    # bottom
+    ax[1].set_title('Fullscript {0} - Actual Cumulative MSRP by Day {1} {2} (blue) vs Actual {3} {4} (orange)'.format(country,
+                                                                                                                      name_month_yesterday, 
+                                                                                                                      year_yesterday, 
+                                                                                                                      name_month_previous_month, 
+                                                                                                                      year_previous_month))
+    # current month actual
+    ax[1].plot(list_prop_days_yesterday_previous_month, list_top_yticks_current, label='Current Month Actual')
+    # previous month actual
+    ax[1].plot(arr_previous_month_actual_day, list_bottom_yticks_prev_month, label='Previous Month Actual', linestyle=':')
+    # set x ticks
+    ax[1].set_xticks(arr_previous_month_actual_day)
+    # x label
+    ax[1].set_xlabel('Day of Month')
+    # ylabel
+    ax[1].set_ylabel('MSRP (USD, in millions)')
+    # legend
+    ax[1].legend(loc='upper left')
+    # fix overlap
+    plt.tight_layout()
+    # print
+    plt.show()
 # define function for generating plots for ordering accounts
 def get_ordering_accounts_benchmarking_plots(country, 
                                              name_month_yesterday, 
