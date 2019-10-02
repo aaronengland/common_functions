@@ -787,6 +787,6 @@ def uniform_list_lengths(list_lists, max_length=31):
     # make all lists the same length as max_length
     for i in range(len(list_lists_length)):
         if not max_length == list_lists_length[i]:
-            list_lists[i].extend(['']*(max_length-list_lists_length[i]))
+            list_lists[i].extend([np.nan]*(max_length-list_lists_length[i]))
     # return list_lists
     return list_lists
