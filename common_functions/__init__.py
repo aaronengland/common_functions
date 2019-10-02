@@ -711,3 +711,18 @@ def recommendations(arr_prescription, arr_product_name, arr_modality, list_targe
     # save as a returnable object
     x = attributes(df_associated_items)
     return x
+
+# define function for unifying list length
+def uniform_list_lengths(list_lists, max_length=31):
+    list_lists_length = []
+    for x in list_lists:
+        # find list length
+        lists_length = len(x)
+        # append to list_lists_length
+        list_lists_length.append(lists_length)
+    # make all lists the same length as max_length
+    for i in range(len(list_lists_length)):
+        if not max_length == list_lists_length[i]:
+            list_lists[i].extend(['']*(max_length-list_lists_length[i]))
+    # return list_lists
+    return list_lists
