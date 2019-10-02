@@ -8,6 +8,7 @@ from scipy.stats import pearsonr
 from sklearn.utils import shuffle
 from sklearn.model_selection import train_test_split
 import datetime
+import matplotlib.pyplot as plt
 
 # define function for churn
 def churn(arr_identifier, arr_transaction_date, identifier_name, end_date, min_transaction_threshold=5, ecdf_threshold=0.9):
