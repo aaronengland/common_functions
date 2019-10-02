@@ -402,9 +402,7 @@ def get_monthly_predictions_yesterday(list_year, list_prop_total, list_prop_days
     # save as a returnable object
     x = attributes(df_results_sorted, best_transformation, best_r_squared, best_correlation, list_predicted_daily_total_yesterday)
     return x
-    
-    
-    
+  
 # define function to convert df to lists
 def listify(df, group_by):
     # convert df into lists
@@ -438,6 +436,48 @@ def max_days_month(month_number):
     else:
         return 31
 
+# define function for preparing_for_benchmarking
+def prep_cum_sum_for_benchmarking(list_year, list_month, list_day, list_total):
+    # put lists into a df
+    df = pd.DataFrame({'year': list_year,
+                       'month': list_month,
+                       'day': list_day,
+                       'total': list_total})
+    # instantiate empty lists
+    list_list_cum_sum = []
+    list_list_sum_total = []
+    list_list_max_days = []
+    for month in list(df['month'].unique()):
+        # subset to given month
+        df_subset = df[df['month'] == month]
+        # get cumulative sum of total
+        list_cum_sum = list(np.cumsum(df_subset['total']))
+        # extend list_list_cum_sum
+        list_list_cum_sum.extend(list_cum_sum)
+        # get sum
+        sum_total = np.sum(df_subset['total'])
+        # make into a list the same length as df_subset
+        list_sum_total = [sum_total for x in range(df_subset.shape[0])]
+        # extend list_list_sum_total
+        list_list_sum_total.extend(list_sum_total)
+        # get max days
+        max_days = np.max(df_subset['day'])
+        # make list 
+        list_max_days = [max_days for x in range(df_subset.shape[0])]
+        # extend list_list_max_days
+        list_list_max_days.extend(list_max_days)
+    # put lists into df
+    df['monthly_cum_sum'] = list_list_cum_sum
+    df['monthly_total'] = list_list_sum_total
+    df['days_in_month'] = list_list_max_days
+    
+    # get proportion of tot_sum
+    df['monthly_proportion_total'] = df['monthly_cum_sum']/df['monthly_total']
+    # get proportion of days in month
+    df['proportion_days_in_month'] = df['day']/df['days_in_month']
+    # return df
+    return df
+    
 # define function for pulling data for rolling year
 def prep_rolling_year_data_pull(date_today):
     # get yesterday's date
@@ -455,8 +495,7 @@ def prep_rolling_year_data_pull(date_today):
     year_end = date_previous_month.year
     # return year_begin, month_begin, year_end
     return year_begin, month_begin, year_end    
-    
-    
+
 # recommendations function
 def recommendations(arr_prescription, arr_product_name, arr_modality, list_target_products,
                     modality=True,
