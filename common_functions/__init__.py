@@ -419,11 +419,11 @@ def get_msrp_benchmarking_plots(country,
                                 arr_previous_month_actual_cum_sum):
     # create ticks (top)
     # current/actual
-    list_top_yticks_current = [x/1000000 for x in df_current['cum_sum_msrp']]
+    list_top_yticks_current = [x/1000000 for x in arr_current_cum_sum]
     # predicted
     list_top_yticks_benchmark = [x/1000000 for x in list_predictions_yesterday]
     # create ticks (bottom)
-    list_bottom_yticks_prev_month = [x/1000000 for x in df_actual_previous_month['monthly_cum_sum']]
+    list_bottom_yticks_prev_month = [x/1000000 for x in arr_previous_month_actual_cum_sum]
     
     # create plot
     fig_subplots, ax = plt.subplots(nrows=2, figsize=(9,9))
