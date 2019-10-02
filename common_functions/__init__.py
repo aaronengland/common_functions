@@ -465,6 +465,9 @@ def get_msrp_benchmarking_plots(country,
     plt.tight_layout()
     # print
     plt.show()
+    # return fig_subplots
+    return fig_subplots
+    
 # define function for generating plots for ordering accounts
 def get_ordering_accounts_benchmarking_plots(country, 
                                              name_month_yesterday, 
