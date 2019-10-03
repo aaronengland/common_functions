@@ -31,7 +31,7 @@ def churn(arr_identifier, arr_transaction_date, identifier_name, end_date, min_t
     df_grouped_subset = df_grouped[df_grouped['n_transactions'] >= min_transaction_threshold]
     # print message
     print('\n')
-    print('All {0} {1} with fewer than {2} transactions has been dropped.'.format(df_grouped.shape[0]-df_grouped_subset.shape[0],identifier_name, min_transaction_threshold))
+    print('{0} {1}s with fewer than {2} transactions has been dropped.'.format(df_grouped.shape[0]-df_grouped_subset.shape[0],identifier_name, min_transaction_threshold))
     # suppress the SettingWithCopyWarning
     pd.options.mode.chained_assignment = None
     # get days diff for each row
