@@ -23,6 +23,8 @@ def churn(arr_identifier, arr_transaction_date, identifier_name, end_date, min_t
     print('{0} rows have been converted into {1} lists'.format(df.shape[0], df_grouped.shape[0]))
     # get number of transactions
     df_grouped['n_transactions'] = df_grouped.apply(lambda x: len(x['transaction_date']), axis=1)
+    # print message
+    print('Number of transactions for each {0} has been calculated'.format(identifier_name))
     # drop every row where there were fewer than min_transaction_threshold
     df_grouped_subset = df_grouped[df_grouped['n_transactions'] >= min_transaction_threshold]
     # suppress the SettingWithCopyWarning
