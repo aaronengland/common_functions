@@ -25,15 +25,20 @@ def churn(arr_identifier, arr_transaction_date, identifier_name, end_date, min_t
     # get number of transactions
     df_grouped['n_transactions'] = df_grouped.apply(lambda x: len(x['transaction_date']), axis=1)
     # print message
+    print('\n')
     print('Number of transactions for each {0} have been calculated.'.format(identifier_name))
     # drop every row where there were fewer than min_transaction_threshold
     df_grouped_subset = df_grouped[df_grouped['n_transactions'] >= min_transaction_threshold]
     # print message
+    print('\n')
     print('Any {0} with fewer than {1} transactions has been dropped.'.format(identifier_name, min_transaction_threshold))
     # suppress the SettingWithCopyWarning
     pd.options.mode.chained_assignment = None
     # get days diff for each row
     df_grouped_subset['days_diff'] = df_grouped_subset.apply(lambda x: get_days_diff(x['transaction_date']), axis=1)
+    # print message
+    print('\n')
+    print('Days between transactions for each {0} have been determined'.format(identifier_name))
     # get the min transaction_date
     df_grouped_subset['min_transaction_date'] = df_grouped_subset.apply(lambda x: np.min(x['transaction_date']), axis=1)
     # get the max transaction_date date
