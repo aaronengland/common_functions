@@ -59,8 +59,14 @@ def churn(arr_identifier, arr_transaction_date, identifier_name, end_date, min_t
     df_grouped_subset['days_to_churn'] = df_grouped_subset.apply(lambda x: days_to_churn(x['days_diff'], ecdf_threshold=ecdf_threshold), axis=1)
     # add days_to_churn to max_transaction_date
     df_grouped_subset['predicted_churn_date'] = df_grouped_subset.apply(lambda x: (x['max_transaction_date'] + pd.DateOffset(days=x['days_to_churn'])).date(), axis=1)
+    # print message
+    print('\n')
+    print('Days to churn (i.e., ECDF = {0}) and churn date for each {1) have been calculated.'.format(ecdf_threshold, identifier_name))
     # drop transaction_date and days_to_churn
     df_grouped_subset.drop(['transaction_date'], axis=1, inplace=True)
+    # print message
+    print('\n')
+    print('Churn analysis complete!')
     # return df_grouped_subset
     return df_grouped_subset
 
