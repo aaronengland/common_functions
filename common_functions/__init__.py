@@ -38,7 +38,7 @@ def churn(arr_identifier, arr_transaction_date, identifier_name, end_date, min_t
     df_grouped_subset['days_diff'] = df_grouped_subset.apply(lambda x: get_days_diff(x['transaction_date']), axis=1)
     # print message
     print('\n')
-    print('Days between transactions for each {0} has been determined.'.format(identifier_name))
+    print('Days between transactions for each {0} have been determined.'.format(identifier_name))
     # get the min transaction_date
     df_grouped_subset['min_transaction_date'] = df_grouped_subset.apply(lambda x: np.min(x['transaction_date']), axis=1)
     # get the max transaction_date date
