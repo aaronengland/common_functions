@@ -54,7 +54,7 @@ def churn(arr_identifier, arr_transaction_date, identifier_name, end_date, min_t
     df_grouped_subset['ecdf'] = df_grouped_subset.apply(lambda x: get_ecdf(x['days_diff'], x['days_since_max_trans']), axis=1)
     # print message
     print('\n')
-    print('Days since the most recent transaction and subsequent ECDF as of {0}-{1}-{2} has been determined.'.format(end_date.year, end_date.month, end_date.day))
+    print('Days since the most recent transaction and subsequent ECDF as of {0}-{1}-{2} has been determined for each {3}.'.format(end_date.year, end_date.month, end_date.day, identifier_name))
     # get days to churn for each row
     df_grouped_subset['days_to_churn'] = df_grouped_subset.apply(lambda x: days_to_churn(x['days_diff'], ecdf_threshold=ecdf_threshold), axis=1)
     # add days_to_churn to max_transaction_date
