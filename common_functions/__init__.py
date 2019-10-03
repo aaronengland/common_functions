@@ -21,7 +21,7 @@ def churn(arr_identifier, arr_transaction_date, identifier_name, end_date, min_t
     df_grouped = listify(df=df, group_by=identifier_name)
     # print message
     print('\n')
-    print('{0} rows have been converted into {1} lists.'.format(df.shape[0], df_grouped.shape[0]))
+    print('{0} rows have been converted into {1} lists (i.e., 1 for each {2}).'.format(df.shape[0], df_grouped.shape[0], identifier_name))
     # get number of transactions
     df_grouped['n_transactions'] = df_grouped.apply(lambda x: len(x['transaction_date']), axis=1)
     # print message
