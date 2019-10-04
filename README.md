@@ -58,7 +58,7 @@ days_to_churn = days_to_churn(list_=list_of_days_between_transactions,
 
 ## get_arpu_benchmarking_plots
 
-The `get_arpu_benchmarking_plots` function returns 2 subplots stacked on top of one another. The top plot is the actual current month's cumulative average revenue per user (ARPU) vs. predicted cumulative ARPU based on the current month's goal by day. The bottom plot is the current month's cumulative ARPU for the current month vs. the previous month's cumulqtive ARPU by day.
+The `get_arpu_benchmarking_plots` function returns 2 subplots stacked on top of one another. The top plot is the actual current month's cumulative average revenue per user (ARPU) vs. predicted cumulative ARPU based on the current month's goal by day. The bottom plot is the current month's cumulative ARPU for the current month vs. the previous month's cumulative ARPU by day.
 
 Arguments:
 - `country`: 
@@ -191,16 +191,48 @@ predictions_yesterday = get_monthly_predictions_yesterday(list_year=list(df_ebd_
                                                           df_ebd=df_ebd,
                                                           year_max_in_model=year_max_in_model,
                                                           goal_yesterday_month=goal_yesterday_month)
-
-
 ```
-
-
 
 ---
 
+## get_msrp_benchmarking_plots
 
+The `get_msrp_benchmarking_plots` function returns 2 subplots stacked on top of one another. The top plot is the actual current month's cumulative MSRP vs. predicted cumulative MSRP based on the current month's goal by day. The bottom plot is the current month's cumulative MSRP for the current month vs. the previous month's cumulative MSRP by day.
 
+Arguments:
+- `country`: 
+- `name_month_yesterday`:
+- `year_yesterday`:
+- `arr_current_day`:
+- `arr_current_cum_sum`:
+- `list_days_in_month_yesterday`:
+- `list_predictions_yesterday`:
+- `name_month_previous_month`:
+- `year_previous_month`:
+- `list_prop_days_yesterday_previous_month`:
+- `arr_previous_month_actual_day`:
+- `arr_previous_month_actual_cum_sum`:
+
+Example:
+
+```
+from common_functions import get_msrp_benchmarking_plots
+
+plots_msrp = get_msrp_benchmarking_plots(country='US', 
+                                         name_month_yesterday='Oct', 
+                                         year_yesterday=2019,
+                                         arr_current_day=df_current['day'],
+                                         arr_current_cum_sum=df_output['Actual Cumulative ARPU'].dropna(),
+                                         list_days_in_month_yesterday=list_days_in_month_yesterday,
+                                         list_predictions_yesterday=list(df_output['Predicted Cumulative ARPU Based on Goal'].dropna()),
+                                         name_month_previous_month='Sep',
+                                         year_previous_month=2019,
+                                         list_prop_days_yesterday_previous_month=list_prop_days_yesterday_previous_month,
+                                         arr_previous_month_actual_day=df_actual_previous_month['day'],
+                                         arr_previous_month_actual_cum_sum=df_output['Predicted Cumulative ARPU Based on Previous Month'].dropna())
+```
+
+---
 
 ## listify
 
