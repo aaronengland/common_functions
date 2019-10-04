@@ -170,6 +170,14 @@ Arguments:
 - `random_state`: (default=42).
 - `test_size`: (default=0.33).
 
+Attributes:
+
+- `df_results_sorted`:
+- `best_transformation`:
+- `best_r_squared`:
+- `best_correlation`:
+- `list_predicted_daily_total_yesterday`:
+
 Example:
 
 ```
