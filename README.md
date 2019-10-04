@@ -62,9 +62,9 @@ The `get_arpu_benchmarking_plots` function returns 2 subplots stacked on top of 
 
 Arguments:
 - `country`: string identifying name of country (ex: 'US').
-- `name_month_yesterday`:
-- `year_yesterday`:
-- `arr_current_day`:
+- `name_month_yesterday`: string identifying the name of yesterday's month (ex: 'Oct').
+- `year_yesterday`: integer identifying yesterday's year (ex: 2019).
+- `arr_current_day`: array of values ranging from 1 to yesterday's day.
 - `arr_current_cum_sum`:
 - `list_days_in_month_yesterday`:
 - `list_predictions_yesterday`:
