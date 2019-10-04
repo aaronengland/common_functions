@@ -55,7 +55,6 @@ Example:
 
 ```
 from common_functions import get_arpu_benchmarking_plots
-
 plots_arpu = get_arpu_benchmarking_plots(country='US', 
                                          name_month_yesterday=name_month_yesterday, 
                                          year_yesterday=year_yesterday,
