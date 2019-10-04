@@ -182,7 +182,7 @@ predictions_yesterday = get_monthly_predictions_yesterday(list_year=list(df_ebd_
                                                           list_ebd=list(df_ebd_joined['ebd']),
                                                           df_ebd=df_ebd,
                                                           year_max_in_model=year_max_in_model,
-                                                     goal_yesterday_month=goal_yesterday_month).list_predicted_daily_total_yesterday
+                                                          goal_yesterday_month=goal_yesterday_month)
 
 
 ```
