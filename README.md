@@ -33,6 +33,29 @@ df_customer_churn = churn(arr_identifier=df_customer_transactions['customer_id']
 
 ---
 
+## days_to_churn
+
+The `days_to_churn` function determines the number of days since the most recent transaction date for which a customer will reach a user-defined ECDF threshold.
+
+Arguments:
+- `list_`: list of integer days between transactions.
+- `ecdf_start`: beginning value of ECDF (defualt=0).
+- `ecdf_threshold`: ECDF threshold to determine whether or not the ID has churned (default=0.9)
+
+Example:
+
+```
+from common_functions import days_to_churn
+
+# calculate days to churn
+days_to_churn = days_to_churn(list_=list_of_days_between_transactions,
+                              ecdf_start=0, 
+                              ecdf_threshold=.9)
+
+```
+
+---
+
 ## get_get_arpu_benchmarking_plots
 
 The `get_arpu_benchmarking_plots` function creates 2 subplots stacked on top of one another. The top plot is the actual current month's cumulative average revenue per user (ARPU) vs. predicted cumulative ARPU based on the current month's goal by day. The bottom plot is the current month's cumulative ARPU for the current month vs. the previous month's cumulqtive ARPU by day.
@@ -68,29 +91,6 @@ plots_arpu = get_arpu_benchmarking_plots(country='US',
                                          list_prop_days_yesterday_previous_month=list_prop_days_yesterday_previous_month,
                                          arr_previous_month_actual_day=df_actual_previous_month['day'],
                                          arr_previous_month_actual_cum_sum=df_output['Predicted Cumulative ARPU Based on Previous Month'].dropna())
-```
-
----
-
-## days_to_churn
-
-The `days_to_churn` function determines the number of days since the most recent transaction date for which a customer will reach a user-defined ECDF threshold.
-
-Arguments:
-- `list_`: list of integer days between transactions.
-- `ecdf_start`: beginning value of ECDF (defualt=0).
-- `ecdf_threshold`: ECDF threshold to determine whether or not the ID has churned (default=0.9)
-
-Example:
-
-```
-from common_functions import days_to_churn
-
-# calculate days to churn
-days_to_churn = days_to_churn(list_=list_of_days_between_transactions,
-                              ecdf_start=0, 
-                              ecdf_threshold=.9)
-
 ```
 
 ---
