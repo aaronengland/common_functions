@@ -79,6 +79,7 @@ Example:
 ```
 from common_functions import get_arpu_benchmarking_plots
 
+# generate plots
 plots_arpu = get_arpu_benchmarking_plots(country='US', 
                                          name_month_yesterday='Oct', 
                                          year_yesterday=2019,
@@ -218,6 +219,7 @@ Example:
 ```
 from common_functions import get_msrp_benchmarking_plots
 
+# generate plots
 plots_msrp = get_msrp_benchmarking_plots(country='US', 
                                          name_month_yesterday='Oct', 
                                          year_yesterday=2019,
@@ -257,6 +259,7 @@ Example:
 ```
 from common_functions import get_ordering_accounts_benchmarking_plots
 
+# generate plots
 plots_accounts = get_msrp_benchmarking_plots(country='US', 
                                              name_month_yesterday='Oct', 
                                              year_yesterday=2019,
