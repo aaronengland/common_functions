@@ -33,6 +33,45 @@ df_customer_churn = churn(arr_identifier=df_customer_transactions['customer_id']
 
 ---
 
+## get_get_arpu_benchmarking_plots
+
+The `get_arpu_benchmarking_plots` function creates 2 subplots stacked on top of one another. The top plot is the actual current month's cumulative average revenue per user (ARPU) vs. predicted cumulative ARPU based on the current month's goal by day. The bottom plot is the current month's cumulative ARPU for the current month vs. the previous month's cumulqtive ARPU by day.
+
+Arguments:
+- `country`: 
+- `name_month_yesterday`:
+- `year_yesterday`:
+- `arr_current_day`:
+- `arr_current_cum_sum`:
+- `list_days_in_month_yesterday`:
+- `list_predictions_yesterday`:
+- `name_month_previous_month`:
+- `year_previous_month`:
+- `list_prop_days_yesterday_previous_month`:
+- `arr_previous_month_actual_day`:
+- `arr_previous_month_actual_cum_sum`:
+
+Example:
+
+```
+from common_functions import get_arpu_benchmarking_plots
+
+plots_arpu = get_arpu_benchmarking_plots(country='US', 
+                                         name_month_yesterday=name_month_yesterday, 
+                                         year_yesterday=year_yesterday,
+                                         arr_current_day=df_current['day'],
+                                         arr_current_cum_sum=df_output['Actual Cumulative ARPU'].dropna(),
+                                         list_days_in_month_yesterday=list_days_in_month_yesterday,
+                                         list_predictions_yesterday=list(df_output['Predicted Cumulative ARPU Based on Goal'].dropna()),
+                                         name_month_previous_month=name_month_previous_month,
+                                         year_previous_month=year_previous_month,
+                                         list_prop_days_yesterday_previous_month=list_prop_days_yesterday_previous_month,
+                                         arr_previous_month_actual_day=df_actual_previous_month['day'],
+                                         arr_previous_month_actual_cum_sum=df_output['Predicted Cumulative ARPU Based on Previous Month'].dropna())
+```
+
+---
+
 ## days_to_churn
 
 The `days_to_churn` function determines the number of days since the most recent transaction date for which a customer will reach a user-defined ECDF threshold.
