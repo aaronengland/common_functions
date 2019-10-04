@@ -65,14 +65,14 @@ Arguments:
 - `name_month_yesterday`: string identifying the name of yesterday's month (ex: 'Oct').
 - `year_yesterday`: integer identifying yesterday's year (ex: 2019).
 - `arr_current_day`: array of values ranging from 1 to yesterday's day.
-- `arr_current_cum_sum`: array of values indicating the cumulative sum of ARPU for yesterday's month as of yesterday.
+- `arr_current_cum_sum`: array of values indicating the cumulative sum for yesterday's month as of yesterday.
 - `list_days_in_month_yesterday`: list or array of integers ranging from 1 to number of day's in yesterday's month.
-- `list_predictions_yesterday`: list or array of predicted ARPU for yesterday's month.
-- `name_month_previous_month`:
-- `year_previous_month`:
-- `list_prop_days_yesterday_previous_month`:
-- `arr_previous_month_actual_day`:
-- `arr_previous_month_actual_cum_sum`:
+- `list_predictions_yesterday`: list or array of predictions for yesterday's month (i.e., output from `get_monthly_predictions_yesterday`).
+- `name_month_previous_month`: string indicating the name of previous month (ex: 'Sep').
+- `year_previous_month`: integer of the year of the previous month (ex: 2019).
+- `list_prop_days_yesterday_previous_month`: list or array of days in the current month that have been proportionalized to yesterday's month.
+- `arr_previous_month_actual_day`: array of integers ranging 1 max days in previous month (from yesterday).
+- `arr_previous_month_actual_cum_sum`: array of the cumulative sum from previous month (from yesterday).
 
 Example:
 
@@ -200,18 +200,18 @@ predictions_yesterday = get_monthly_predictions_yesterday(list_year=list(df_ebd_
 The `get_msrp_benchmarking_plots` function returns 2 subplots stacked on top of one another. The top plot is the actual current month's cumulative MSRP vs. predicted cumulative MSRP based on the current month's goal by day. The bottom plot is the current month's cumulative MSRP for the current month vs. the previous month's cumulative MSRP by day.
 
 Arguments:
-- `country`: 
-- `name_month_yesterday`:
-- `year_yesterday`:
-- `arr_current_day`:
-- `arr_current_cum_sum`:
-- `list_days_in_month_yesterday`:
-- `list_predictions_yesterday`:
-- `name_month_previous_month`:
-- `year_previous_month`:
-- `list_prop_days_yesterday_previous_month`:
-- `arr_previous_month_actual_day`:
-- `arr_previous_month_actual_cum_sum`:
+- `country`: string identifying name of country (ex: 'US').
+- `name_month_yesterday`: string identifying the name of yesterday's month (ex: 'Oct').
+- `year_yesterday`: integer identifying yesterday's year (ex: 2019).
+- `arr_current_day`: array of values ranging from 1 to yesterday's day.
+- `arr_current_cum_sum`: array of values indicating the cumulative sum for yesterday's month as of yesterday.
+- `list_days_in_month_yesterday`: list or array of integers ranging from 1 to number of day's in yesterday's month.
+- `list_predictions_yesterday`: list or array of predictions for yesterday's month (i.e., output from `get_monthly_predictions_yesterday`).
+- `name_month_previous_month`: string indicating the name of previous month (ex: 'Sep').
+- `year_previous_month`: integer of the year of the previous month (ex: 2019).
+- `list_prop_days_yesterday_previous_month`: list or array of days in the current month that have been proportionalized to yesterday's month.
+- `arr_previous_month_actual_day`: array of integers ranging 1 max days in previous month (from yesterday).
+- `arr_previous_month_actual_cum_sum`: array of the cumulative sum from previous month (from yesterday).
 
 Example:
 
@@ -239,18 +239,18 @@ plots_msrp = get_msrp_benchmarking_plots(country='US',
 The `get_ordering_accounts_benchmarking_plots` function returns 2 subplots stacked on top of one another. The top plot is the actual current month's cumulative ordering accounts vs. predicted cumulative ordering accounts based on the current month's goal by day. The bottom plot is the current month's cumulative ordering accounts for the current month vs. the previous month's cumulative ordering acounts by day.
 
 Arguments:
-- `country`: 
-- `name_month_yesterday`:
-- `year_yesterday`:
-- `arr_current_day`:
-- `arr_current_cum_sum`:
-- `list_days_in_month_yesterday`:
-- `list_predictions_yesterday`:
-- `name_month_previous_month`:
-- `year_previous_month`:
-- `list_prop_days_yesterday_previous_month`:
-- `arr_previous_month_actual_day`:
-- `arr_previous_month_actual_cum_sum`:
+- `country`: string identifying name of country (ex: 'US').
+- `name_month_yesterday`: string identifying the name of yesterday's month (ex: 'Oct').
+- `year_yesterday`: integer identifying yesterday's year (ex: 2019).
+- `arr_current_day`: array of values ranging from 1 to yesterday's day.
+- `arr_current_cum_sum`: array of values indicating the cumulative sum for yesterday's month as of yesterday.
+- `list_days_in_month_yesterday`: list or array of integers ranging from 1 to number of day's in yesterday's month.
+- `list_predictions_yesterday`: list or array of predictions for yesterday's month (i.e., output from `get_monthly_predictions_yesterday`).
+- `name_month_previous_month`: string indicating the name of previous month (ex: 'Sep').
+- `year_previous_month`: integer of the year of the previous month (ex: 2019).
+- `list_prop_days_yesterday_previous_month`: list or array of days in the current month that have been proportionalized to yesterday's month.
+- `arr_previous_month_actual_day`: array of integers ranging 1 max days in previous month (from yesterday).
+- `arr_previous_month_actual_cum_sum`: array of the cumulative sum from previous month (from yesterday).
 
 Example:
 
