@@ -56,14 +56,14 @@ Example:
 ```
 from common_functions import get_arpu_benchmarking_plots
 plots_arpu = get_arpu_benchmarking_plots(country='US', 
-                                         name_month_yesterday=name_month_yesterday, 
-                                         year_yesterday=year_yesterday,
+                                         name_month_yesterday='Oct', 
+                                         year_yesterday=2019,
                                          arr_current_day=df_current['day'],
                                          arr_current_cum_sum=df_output['Actual Cumulative ARPU'].dropna(),
                                          list_days_in_month_yesterday=list_days_in_month_yesterday,
                                          list_predictions_yesterday=list(df_output['Predicted Cumulative ARPU Based on Goal'].dropna()),
-                                         name_month_previous_month=name_month_previous_month,
-                                         year_previous_month=year_previous_month,
+                                         name_month_previous_month='Sep',
+                                         year_previous_month=2019,
                                          list_prop_days_yesterday_previous_month=list_prop_days_yesterday_previous_month,
                                          arr_previous_month_actual_day=df_actual_previous_month['day'],
                                          arr_previous_month_actual_cum_sum=df_output['Predicted Cumulative ARPU Based on Previous Month'].dropna())
