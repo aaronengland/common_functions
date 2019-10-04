@@ -65,9 +65,9 @@ Arguments:
 - `name_month_yesterday`: string identifying the name of yesterday's month (ex: 'Oct').
 - `year_yesterday`: integer identifying yesterday's year (ex: 2019).
 - `arr_current_day`: array of values ranging from 1 to yesterday's day.
-- `arr_current_cum_sum`:
-- `list_days_in_month_yesterday`:
-- `list_predictions_yesterday`:
+- `arr_current_cum_sum`: array of values indicating the cumulative sum of ARPU for yesterday's month as of yesterday.
+- `list_days_in_month_yesterday`: list or array of integers ranging from 1 to number of day's in yesterday's month.
+- `list_predictions_yesterday`: list or array of predicted ARPU for yesterday's month.
 - `name_month_previous_month`:
 - `year_previous_month`:
 - `list_prop_days_yesterday_previous_month`:
