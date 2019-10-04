@@ -58,7 +58,7 @@ days_to_churn = days_to_churn(list_=list_of_days_between_transactions,
 
 ## get_arpu_benchmarking_plots
 
-The `get_arpu_benchmarking_plots` function creates 2 subplots stacked on top of one another. The top plot is the actual current month's cumulative average revenue per user (ARPU) vs. predicted cumulative ARPU based on the current month's goal by day. The bottom plot is the current month's cumulative ARPU for the current month vs. the previous month's cumulqtive ARPU by day.
+The `get_arpu_benchmarking_plots` function returns 2 subplots stacked on top of one another. The top plot is the actual current month's cumulative average revenue per user (ARPU) vs. predicted cumulative ARPU based on the current month's goal by day. The bottom plot is the current month's cumulative ARPU for the current month vs. the previous month's cumulqtive ARPU by day.
 
 Arguments:
 - `country`: 
@@ -151,6 +151,48 @@ month_name = get_month_name(month_number=1)
 ```
 
 ---
+
+## get_monthly_predictions_yesterday
+
+The `get_monthly_predictions_yesterday` function uses Linear Regression with year, expected business day (EBD; 1/0), and proportion of days in the month to predict proportion of total (ordering accounts or MSRP). The function automates the entire model-building process. First, it shuffles the rows of the data. Next, it splits the data into X (predictors) and y (outcome). Then, it splits the data into testing and training data, tries 7 different transformations on the proportion of days in the month (i.e., none, square, cube, log, natural log, square root, and cube root), and picks the transformation which results in the best values for R-squared and Pearson correlation between predicted and actual values (test data). Lastly, it uses the current month's goal to generate the predicted cumulative sum by day of yesterday's month.
+
+Note: if the current month is January, year is not included in the analysis (because every value for year would be the same in the data). For example, if the month and year is January 2019 (as of yesterday), the data used for fitting the model will range from January 1, 2018 through December 31, 2018.
+
+Arguments:
+
+- `list_year`:
+- `list_prop_total`:
+- `list_prop_days_in_month`:
+- `list_ebd`: 
+- `df_ebd`:
+- `year_max_in_model`:
+- `goal_yesterday_month`:
+- `random_state`: (default=42).
+- `test_size`: (default=0.33).
+
+Example:
+
+```
+from common_functions import get_monthly_predictions_yesterday
+
+# get predictions
+predictions_yesterday = get_monthly_predictions_yesterday(list_year=list(df_ebd_joined['year_for_model']),
+                                                          list_prop_total=list(df_ebd_joined['monthly_proportion_total']),
+                                                                                      list_prop_days_in_month=list(df_ebd_joined['proportion_days_in_month']),
+                                                                  list_ebd=list(df_ebd_joined['ebd']),
+                                                                  df_ebd=df_ebd,
+                                                                  year_max_in_model=year_max_in_model,
+                                                                  goal_yesterday_month=goal_yesterday_month).list_predicted_daily_total_yesterday
+
+
+```
+
+
+
+---
+
+
+
 
 ## listify
 
