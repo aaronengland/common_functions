@@ -314,6 +314,30 @@ n_days_in_month = max_days_month(month_number=2
 
 ---
 
+## prep_cum_sum_for_benchmarking
+
+The `prep_cum_sum_for_benchmarking` function is used for preparing data for the `get_monthly_predictions_yesterday` function by calculating the cumulative sum for each month by day and subsequent proportion of total and proportion of days in each month. This function is used as an intermediary between the SQL query and the `get_monthly_predictions_yesterday` model-building function.
+
+Arguments:
+- `list_year`:
+- `list_month`:
+- `list_day`:
+- `list_total`:
+
+Example:
+
+```
+from common_functions import prep_cum_sum_for_benchmarking
+
+# prepare the df for the model
+df_for_model = prep_cum_sum_for_benchmarking(list_year=list(df['first_order_year']), 
+                                             list_month=list(df['first_order_month']), 
+                                             list_day=list(df['first_order_day']), 
+                                             list_total=list(df['ordering_accounts']))
+```
+
+---
+
 ## recommendations
 
 The `recomendations` function measures the strength of association of each item with a target item or list of target items. Association is determined using 3 metrics:
