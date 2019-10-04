@@ -322,10 +322,12 @@ n_days_in_month = max_days_month(month_number=2
 The `prep_cum_sum_for_benchmarking` function is used for preparing data for the `get_monthly_predictions_yesterday` function by calculating the cumulative sum for each month by day and subsequent proportion of total and proportion of days in each month. This function is used as an intermediary between the SQL query and the `get_monthly_predictions_yesterday` model-building function.
 
 Arguments:
-- `list_year`:
-- `list_month`:
-- `list_day`:
-- `list_total`:
+- `list_year`: list of integer values for year.
+- `list_month`: list of integer values for month.
+- `list_day`: list of integer values for day.
+- `list_total`: list of values for daily total.
+
+Note: each row indicates a day from the previous full 12 months.
 
 Example:
 
