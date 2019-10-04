@@ -161,23 +161,23 @@ Note: if the current month is January, year is not included in the analysis (bec
 
 Arguments:
 
-- `list_year`:
-- `list_prop_total`:
-- `list_prop_days_in_month`:
-- `list_ebd`: 
-- `df_ebd`:
-- `year_max_in_model`:
-- `goal_yesterday_month`:
-- `random_state`: (default=42).
-- `test_size`: (default=0.33).
+- `list_year`: list of integer values for year.
+- `list_prop_total`: list of float values for proportion of monthly total.
+- `list_prop_days_in_month`: list of float values for proportion of days in the month.
+- `list_ebd`: list of integer values (i.e., 1/0) for expected business day (EBD).
+- `df_ebd`: data frame with year (integer), month number (integer), day (integer), and EBD (integer; 1/0) for each day of the year.
+- `year_max_in_model`: integer value for maximum year in the model.
+- `goal_yesterday_month`: goal total for yesterday's month.
+- `random_state`: value to set a random state when splitting into testing and training (default=42).
+- `test_size`: proportion of values to be used in test data (default=0.33).
 
 Attributes:
 
-- `df_results_sorted`:
-- `best_transformation`:
-- `best_r_squared`:
-- `best_correlation`:
-- `list_predicted_daily_total_yesterday`:
+- `df_results_sorted`: data frame of transformation and corresponding R-squared and Pearson correlation between predicted and actual values (test data).
+- `best_transformation`: the transformation of proportion of days in the month resulting in the best model.
+- `best_r_squared`: the best R-squared value among the transformations.
+- `best_correlation`: best Pearson r value among the transformations.
+- `list_predicted_daily_total_yesterday`: list of values for the predicted daily cumulative sum for yesterday's month.
 
 Example:
 
