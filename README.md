@@ -56,7 +56,7 @@ days_to_churn = days_to_churn(list_=list_of_days_between_transactions,
 
 ---
 
-## get_get_arpu_benchmarking_plots
+## get_arpu_benchmarking_plots
 
 The `get_arpu_benchmarking_plots` function creates 2 subplots stacked on top of one another. The top plot is the actual current month's cumulative average revenue per user (ARPU) vs. predicted cumulative ARPU based on the current month's goal by day. The bottom plot is the current month's cumulative ARPU for the current month vs. the previous month's cumulqtive ARPU by day.
 
