@@ -80,7 +80,8 @@ Example:
 from common_functions import get_ordering_accounts_benchmarking_plots
 
 # generate plots
-plots_accounts = get_msrp_benchmarking_plots(country='US', 
+plots_accounts = get_msrp_benchmarking_plots(metric='Ordering Acxcounts',
+                                             country='US', 
                                              name_month_yesterday='Oct', 
                                              year_yesterday=2019,
                                              arr_current_day=df_current['day'],
