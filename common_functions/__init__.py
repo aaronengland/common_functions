@@ -372,20 +372,53 @@ def get_monthly_predictions_yesterday(list_year, list_prop_total, list_prop_days
     # save as a returnable object
     x = attributes(df_results_sorted, best_transformation, best_r_squared, best_correlation, list_predicted_daily_total_yesterday)
     return x
+  
+# define function to convert df to lists
+def listify(df, group_by):
+    # convert df into lists
+    df_grouped = df.groupby(group_by, as_index=False).agg(lambda x: x.tolist())
+    return df_grouped
+    
+# max days in month
+def max_days_month(month_number):
+    if month_number == 1:
+        return 31
+    elif month_number == 2:
+        return 28
+    elif month_number == 3:
+        return 31
+    elif month_number == 4:
+        return 30
+    elif month_number == 5:
+        return 31
+    elif month_number == 6:
+        return 30
+    elif month_number == 7:
+        return 31
+    elif month_number == 8:
+        return 31
+    elif month_number == 9:
+        return 30
+    elif month_number == 10:
+        return 31
+    elif month_number == 11:
+        return 30
+    else:
+        return 31
 
 # define function for msrp benchmarking plots
-def get_msrp_benchmarking_plots(country,
-                                name_month_yesterday,
-                                year_yesterday,
-                                arr_current_day,
-                                arr_current_cum_sum,
-                                list_days_in_month_yesterday,
-                                list_predictions_yesterday,
-                                name_month_previous_month,
-                                year_previous_month,
-                                list_prop_days_yesterday_previous_month,
-                                arr_previous_month_actual_day,
-                                arr_previous_month_actual_cum_sum):
+def msrp_benchmarking_plots(country,
+                            name_month_yesterday,
+                            year_yesterday,
+                            arr_current_day,
+                            arr_current_cum_sum,
+                            list_days_in_month_yesterday,
+                            list_predictions_yesterday,
+                            name_month_previous_month,
+                            year_previous_month,
+                            list_prop_days_yesterday_previous_month,
+                            arr_previous_month_actual_day,
+                            arr_previous_month_actual_cum_sum):
     # create ticks (top)
     # current/actual
     list_top_yticks_current = [x/1000000 for x in arr_current_cum_sum]
@@ -435,41 +468,8 @@ def get_msrp_benchmarking_plots(country,
     # print
     plt.show()
     # return fig_subplots
-    return fig_subplots
-  
-# define function to convert df to lists
-def listify(df, group_by):
-    # convert df into lists
-    df_grouped = df.groupby(group_by, as_index=False).agg(lambda x: x.tolist())
-    return df_grouped
+    return fig_subplots    
     
-# max days in month
-def max_days_month(month_number):
-    if month_number == 1:
-        return 31
-    elif month_number == 2:
-        return 28
-    elif month_number == 3:
-        return 31
-    elif month_number == 4:
-        return 30
-    elif month_number == 5:
-        return 31
-    elif month_number == 6:
-        return 30
-    elif month_number == 7:
-        return 31
-    elif month_number == 8:
-        return 31
-    elif month_number == 9:
-        return 30
-    elif month_number == 10:
-        return 31
-    elif month_number == 11:
-        return 30
-    else:
-        return 31
-
 # define function for preparing_for_benchmarking
 def prep_cum_sum_for_benchmarking(list_year, list_month, list_day, list_total):
     # put lists into a df
