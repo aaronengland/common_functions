@@ -78,25 +78,27 @@ def days_to_churn(list_, ecdf_start=0, ecdf_threshold=.9):
         ecdf_start = get_ecdf(list_, days_to_churn)
     return days_to_churn
 
-# define function for arpu benchmarking plots
-def get_arpu_benchmarking_plots(country, 
-                                name_month_yesterday, 
-                                year_yesterday,
-                                arr_current_day,
-                                arr_current_cum_sum,
-                                list_days_in_month_yesterday,
-                                list_predictions_yesterday,
-                                name_month_previous_month,
-                                year_previous_month,
-                                list_prop_days_yesterday_previous_month,
-                                arr_previous_month_actual_day,
-                                arr_previous_month_actual_cum_sum):
+# define function for generic benchmarking plots
+def generic_benchmarking_plots(metric,
+                               country, 
+                               name_month_yesterday, 
+                               year_yesterday,
+                               arr_current_day,
+                               arr_current_cum_sum,
+                               list_days_in_month_yesterday,
+                               list_predictions_yesterday,
+                               name_month_previous_month,
+                               year_previous_month,
+                               list_prop_days_yesterday_previous_month,
+                               arr_previous_month_actual_day,
+                               arr_previous_month_actual_cum_sum):
     # create plot
     fig_subplots, ax = plt.subplots(nrows=2, figsize=(9,9))
     # top
-    ax[0].set_title('Fullscript {0} - Actual Cumulative ARPU by Day {1} {2} (blue) vs Goal Benchmark {1} {2} (orange)'.format(country,
-                                                                                                                              name_month_yesterday, 
-                                                                                                                              year_yesterday))
+    ax[0].set_title('Fullscript {0} - Actual Cumulative {1} by Day {2} {3} (blue) vs Goal Benchmark {2} {3} (orange)'.format(country,
+                                                                                                                             metric,
+                                                                                                                             name_month_yesterday, 
+                                                                                                                             year_yesterday))
     # current month actual
     ax[0].plot(arr_current_day, arr_current_cum_sum, label='Current Month Actual')
     # current month benchmark
@@ -106,15 +108,16 @@ def get_arpu_benchmarking_plots(country,
     # x label
     ax[0].set_xlabel('Day of Month')
     # ylabel
-    ax[0].set_ylabel('ARPU')
+    ax[0].set_ylabel('{0}'.format(metric))
     # legend
     ax[0].legend(loc='upper left')
     # bottom
-    ax[1].set_title('Fullscript {0} - Actual Cumulative ARPU by Day in {1} {2} (blue) vs. Actual {3} {4} (orange)'.format(country,
-                                                                                                                                       name_month_yesterday, 
-                                                                                                                                       year_yesterday, 
-                                                                                                                                       name_month_previous_month, 
-                                                                                                                                       year_previous_month))
+    ax[1].set_title('Fullscript {0} - Actual Cumulative {1} by Day in {2} {3} (blue) vs. Actual {4} {5} (orange)'.format(country,
+                                                                                                                         metric,
+                                                                                                                         name_month_yesterday, 
+                                                                                                                         year_yesterday, 
+                                                                                                                         name_month_previous_month, 
+                                                                                                                         year_previous_month))
     # current month actual
     ax[1].plot(list_prop_days_yesterday_previous_month, arr_current_cum_sum, label='Current Month Actual')
     # previous month actual
@@ -124,7 +127,7 @@ def get_arpu_benchmarking_plots(country,
     # x label
     ax[1].set_xlabel('Day of Month')
     # ylabel
-    ax[1].set_ylabel('Ordering Accounts')
+    ax[1].set_ylabel('{0}'.format(metric))
     # legend
     ax[1].legend(loc='upper left')
     # fix overlap
@@ -133,7 +136,6 @@ def get_arpu_benchmarking_plots(country,
     plt.show()
     # return plot
     return fig_subplots
-
 
 # define function to get the days between transactions
 def get_days_diff(list_):
@@ -434,63 +436,7 @@ def get_msrp_benchmarking_plots(country,
     plt.show()
     # return fig_subplots
     return fig_subplots
-    
-# define function for generating plots for ordering accounts
-def get_ordering_accounts_benchmarking_plots(country, 
-                                             name_month_yesterday, 
-                                             year_yesterday,
-                                             arr_current_day,
-                                             arr_current_cum_sum,
-                                             list_days_in_month_yesterday,
-                                             list_predictions_yesterday,
-                                             name_month_previous_month,
-                                             year_previous_month,
-                                             list_prop_days_yesterday_previous_month,
-                                             arr_previous_month_actual_day,
-                                             arr_previous_month_actual_cum_sum):
-    # create plot
-    fig_subplots, ax = plt.subplots(nrows=2, figsize=(9,9))
-    # top
-    ax[0].set_title('Fullscript {0} - Actual Cumulative Ordering Accounts by Day {1} {2} (blue) vs Goal Benchmark {1} {2} (orange)'.format(country,
-                                                                                                                                           name_month_yesterday, 
-                                                                                                                                           year_yesterday))
-    # current month actual
-    ax[0].plot(arr_current_day, arr_current_cum_sum, label='Current Month Actual')
-    # current month benchmark
-    ax[0].plot(list_days_in_month_yesterday, list_predictions_yesterday, label='Current Month Benchmark', linestyle=':')
-    # set x ticks
-    ax[0].set_xticks(list_days_in_month_yesterday)
-    # x label
-    ax[0].set_xlabel('Day of Month')
-    # ylabel
-    ax[0].set_ylabel('Ordering Accounts')
-    # legend
-    ax[0].legend(loc='upper left')
-    # bottom
-    ax[1].set_title('Fullscript {0} - Actual Cumulative Ordering Accounts by Day in {1} {2} (blue) vs. Actual {3} {4} (orange)'.format(country,
-                                                                                                                                       name_month_yesterday, 
-                                                                                                                                       year_yesterday, 
-                                                                                                                                       name_month_previous_month, 
-                                                                                                                                       year_previous_month))
-    # current month actual
-    ax[1].plot(list_prop_days_yesterday_previous_month, arr_current_cum_sum, label='Current Month Actual')
-    # previous month actual
-    ax[1].plot(arr_previous_month_actual_day, arr_previous_month_actual_cum_sum, label='Previous Month Actual', linestyle=':')
-    # set x ticks
-    ax[1].set_xticks(arr_previous_month_actual_day)
-    # x label
-    ax[1].set_xlabel('Day of Month')
-    # ylabel
-    ax[1].set_ylabel('Ordering Accounts')
-    # legend
-    ax[1].legend(loc='upper left')
-    # fix overlap
-    plt.tight_layout()
-    # print
-    plt.show()
-    # return plot
-    return fig_subplots
-    
+  
 # define function to convert df to lists
 def listify(df, group_by):
     # convert df into lists
