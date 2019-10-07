@@ -197,6 +197,47 @@ predictions_yesterday = get_monthly_predictions_yesterday(list_year=list(df_ebd_
 
 ---
 
+## listify
+
+The `listify` function groups a data frame by a user-defined variable and creates a list for each column for each group.
+
+Arguments:
+- `df`: data frame for which to group.
+- `group_by`: variable for which to group.
+
+Example:
+
+```
+from common_functions import listify
+
+# convert data frame into grouped lists
+df_grouped_lists = listify(df=df,
+                           group_by='customer_id')
+```
+
+---
+
+## max_days_month
+
+The `max_days_month` function returns the number of days in a user-defined month number.
+
+Arguments:
+- `month_number`: number of month (ex: January is 1).
+- `leap_year`: a boolean of whether or not it is a leap year (default=False).
+
+Example:
+
+```
+from common_functions import max_days_month
+
+# get number of days in the month
+n_days_in_month = max_days_month(month_number=2
+                                 leap_year=False)
+
+```
+
+---
+
 ## msrp_benchmarking_plots
 
 The `msrp_benchmarking_plots` function returns 2 subplots stacked on top of one another. The top plot is the actual current month's cumulative MSRP vs. predicted cumulative MSRP based on the current month's goal by day. The bottom plot is the current month's cumulative MSRP for the current month vs. the previous month's cumulative MSRP by day.
@@ -235,47 +276,6 @@ plots_msrp = msrp_benchmarking_plots(country='US',
                                      list_prop_days_yesterday_previous_month=list_prop_days_yesterday_previous_month,
                                      arr_previous_month_actual_day=df_actual_previous_month['day'],
                                      arr_previous_month_actual_cum_sum=df_output['Predicted Cumulative ARPU Based on Previous Month'].dropna())
-```
-
----
-
-## listify
-
-The `listify` function groups a data frame by a user-defined variable and creates a list for each column for each group.
-
-Arguments:
-- `df`: data frame for which to group.
-- `group_by`: variable for which to group.
-
-Example:
-
-```
-from common_functions import listify
-
-# convert data frame into grouped lists
-df_grouped_lists = listify(df=df,
-                           group_by='customer_id')
-```
-
----
-
-## max_days_month
-
-The `max_days_month` function returns the number of days in a user-defined month number.
-
-Arguments:
-- `month_number`: number of month (ex: January is 1).
-- `leap_year`: a boolean of whether or not it is a leap year (default=False).
-
-Example:
-
-```
-from common_functions import max_days_month
-
-# get number of days in the month
-n_days_in_month = max_days_month(month_number=2
-                                 leap_year=False)
-
 ```
 
 ---
