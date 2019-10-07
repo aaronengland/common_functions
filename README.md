@@ -201,6 +201,8 @@ predictions_yesterday = get_monthly_predictions_yesterday(list_year=list(df_ebd_
 
 The `get_msrp_benchmarking_plots` function returns 2 subplots stacked on top of one another. The top plot is the actual current month's cumulative MSRP vs. predicted cumulative MSRP based on the current month's goal by day. The bottom plot is the current month's cumulative MSRP for the current month vs. the previous month's cumulative MSRP by day.
 
+Note: the `get_msrp_benchmarking_plots` function is used separately from the `generic_benchmarking_plots` function because MSRP requires the values of MSRP to be divided by 1 million.
+
 Arguments:
 - `country`: string identifying name of country (ex: 'US').
 - `name_month_yesterday`: string identifying the name of yesterday's month (ex: 'Oct').
