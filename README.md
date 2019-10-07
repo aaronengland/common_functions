@@ -55,12 +55,12 @@ days_to_churn = days_to_churn(list_=list_of_days_between_transactions,
 ```
 
 ---
+## generic_benchmarking_plots
 
-## get_arpu_benchmarking_plots
-
-The `get_arpu_benchmarking_plots` function returns 2 subplots stacked on top of one another. The top plot is the actual current month's cumulative average revenue per user (ARPU) vs. predicted cumulative ARPU based on the current month's goal by day. The bottom plot is the current month's cumulative ARPU for the current month vs. the previous month's cumulative ARPU by day.
+The `generic_benchmarking_plots` function returns 2 subplots stacked on top of one another. The top plot is the actual current month's cumulative metric vs. predicted cumulative metric based on the current month's goal by day. The bottom plot is the current month's cumulative metric for the current month vs. the previous month's cumulative metric by day.
 
 Arguments:
+- `metric`: string indicating the metric displayed on the y-axis (ex: 'Ordering Accounts').
 - `country`: string identifying name of country (ex: 'US').
 - `name_month_yesterday`: string identifying the name of yesterday's month (ex: 'Oct').
 - `year_yesterday`: integer identifying yesterday's year (ex: 2019).
@@ -77,21 +77,21 @@ Arguments:
 Example:
 
 ```
-from common_functions import get_arpu_benchmarking_plots
+from common_functions import get_ordering_accounts_benchmarking_plots
 
 # generate plots
-plots_arpu = get_arpu_benchmarking_plots(country='US', 
-                                         name_month_yesterday='Oct', 
-                                         year_yesterday=2019,
-                                         arr_current_day=df_current['day'],
-                                         arr_current_cum_sum=df_output['Actual Cumulative ARPU'].dropna(),
-                                         list_days_in_month_yesterday=list_days_in_month_yesterday,
-                                         list_predictions_yesterday=list(df_output['Predicted Cumulative ARPU Based on Goal'].dropna()),
-                                         name_month_previous_month='Sep',
-                                         year_previous_month=2019,
-                                         list_prop_days_yesterday_previous_month=list_prop_days_yesterday_previous_month,
-                                         arr_previous_month_actual_day=df_actual_previous_month['day'],
-                                         arr_previous_month_actual_cum_sum=df_output['Predicted Cumulative ARPU Based on Previous Month'].dropna())
+plots_accounts = get_msrp_benchmarking_plots(country='US', 
+                                             name_month_yesterday='Oct', 
+                                             year_yesterday=2019,
+                                             arr_current_day=df_current['day'],
+                                             arr_current_cum_sum=df_output['Actual Cumulative ARPU'].dropna(),
+                                             list_days_in_month_yesterday=list_days_in_month_yesterday,
+                                             list_predictions_yesterday=list(df_output['Predicted Cumulative ARPU Based on Goal'].dropna()),
+                                             name_month_previous_month='Sep',
+                                             year_previous_month=2019,
+                                             list_prop_days_yesterday_previous_month=list_prop_days_yesterday_previous_month,
+                                             arr_previous_month_actual_day=df_actual_previous_month['day'],
+                                             arr_previous_month_actual_cum_sum=df_output['Predicted Cumulative ARPU Based on Previous Month'].dropna())
 ```
 
 ---
@@ -232,46 +232,6 @@ plots_msrp = get_msrp_benchmarking_plots(country='US',
                                          list_prop_days_yesterday_previous_month=list_prop_days_yesterday_previous_month,
                                          arr_previous_month_actual_day=df_actual_previous_month['day'],
                                          arr_previous_month_actual_cum_sum=df_output['Predicted Cumulative ARPU Based on Previous Month'].dropna())
-```
-
----
-
-## get_ordering_accounts_benchmarking_plots
-
-The `get_ordering_accounts_benchmarking_plots` function returns 2 subplots stacked on top of one another. The top plot is the actual current month's cumulative ordering accounts vs. predicted cumulative ordering accounts based on the current month's goal by day. The bottom plot is the current month's cumulative ordering accounts for the current month vs. the previous month's cumulative ordering acounts by day.
-
-Arguments:
-- `country`: string identifying name of country (ex: 'US').
-- `name_month_yesterday`: string identifying the name of yesterday's month (ex: 'Oct').
-- `year_yesterday`: integer identifying yesterday's year (ex: 2019).
-- `arr_current_day`: array of values ranging from 1 to yesterday's day.
-- `arr_current_cum_sum`: array of values indicating the cumulative sum for yesterday's month as of yesterday.
-- `list_days_in_month_yesterday`: list or array of integers ranging from 1 to number of day's in yesterday's month.
-- `list_predictions_yesterday`: list or array of predictions for yesterday's month (i.e., output from `get_monthly_predictions_yesterday`).
-- `name_month_previous_month`: string indicating the name of previous month (ex: 'Sep').
-- `year_previous_month`: integer of the year of the previous month (ex: 2019).
-- `list_prop_days_yesterday_previous_month`: list or array of days in the current month that have been proportionalized to yesterday's month.
-- `arr_previous_month_actual_day`: array of integers ranging 1 max days in previous month (from yesterday).
-- `arr_previous_month_actual_cum_sum`: array of the cumulative sum from previous month (from yesterday).
-
-Example:
-
-```
-from common_functions import get_ordering_accounts_benchmarking_plots
-
-# generate plots
-plots_accounts = get_msrp_benchmarking_plots(country='US', 
-                                             name_month_yesterday='Oct', 
-                                             year_yesterday=2019,
-                                             arr_current_day=df_current['day'],
-                                             arr_current_cum_sum=df_output['Actual Cumulative ARPU'].dropna(),
-                                             list_days_in_month_yesterday=list_days_in_month_yesterday,
-                                             list_predictions_yesterday=list(df_output['Predicted Cumulative ARPU Based on Goal'].dropna()),
-                                             name_month_previous_month='Sep',
-                                             year_previous_month=2019,
-                                             list_prop_days_yesterday_previous_month=list_prop_days_yesterday_previous_month,
-                                             arr_previous_month_actual_day=df_actual_previous_month['day'],
-                                             arr_previous_month_actual_cum_sum=df_output['Predicted Cumulative ARPU Based on Previous Month'].dropna())
 ```
 
 ---
