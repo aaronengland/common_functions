@@ -9,6 +9,8 @@ from sklearn.utils import shuffle
 from sklearn.model_selection import train_test_split
 import datetime
 import matplotlib.pyplot as plt
+from numpy.linalg import inv
+from pandas.plotting import register_matplotlib_converters
 
 # define function for churn
 def churn(arr_identifier, arr_transaction_date, identifier_name, end_date, min_transaction_threshold=5, ecdf_threshold=0.9):
@@ -160,6 +162,7 @@ def churn_trend(arr_identifier, arr_transaction_date, identifier_name, min_trans
     trend_churned = [b[0]+b[1]*x for x in list_month_number]
         
     # plot it
+    register_matplotlib_converters() # for dates as x-axis
     fig, ax = plt.subplots(figsize=(15, 5))
     # plot title
     ax.set_title(plot_title)
