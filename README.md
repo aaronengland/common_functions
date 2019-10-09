@@ -46,7 +46,7 @@ Arguments:
 - `plot_title`: title of the plot.
 
 Attributes:
-- `list_transaction_year_month_unique`: array of end dates for which to use in the `churn` function.
+- `list_transaction_year_month_unique`: list of end dates for which to use in the `churn` function.
 - `list_prop_churned`: list of the proportion of churned users by month.
 - `b`: array of coefficients for trend of proportion of churned users (intercept, .
 - `trend_churned`: list of values for trend of proportion churned users.
