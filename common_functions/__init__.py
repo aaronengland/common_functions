@@ -183,8 +183,8 @@ def churn_trend(arr_identifier, arr_transaction_date, identifier_name, min_trans
     
     # return attributes
     class attributes:
-        def __init__(self, transaction_year_month_unique, list_prop_churned, b, trend_churned, list_prop_churned_returned, list_prop_churn_never_returned, fig):
-            self.transaction_year_month_unique = transaction_year_month_unique
+        def __init__(self, list_transaction_year_month_unique, list_prop_churned, b, trend_churned, list_prop_churned_returned, list_prop_churn_never_returned, fig):
+            self.list_transaction_year_month_unique = list_transaction_year_month_unique
             self.list_prop_churned = list_prop_churned
             self.b = b
             self.trend_churned = trend_churned
@@ -192,7 +192,7 @@ def churn_trend(arr_identifier, arr_transaction_date, identifier_name, min_trans
             self.list_prop_churn_never_returned = list_prop_churn_never_returned
             self.fig = fig
     # save as returnable object
-    x = attributes(transaction_year_month_unique, list_prop_churned, b, trend_churned, list_prop_churned_returned, list_prop_churn_never_returned, fig)
+    x = attributes(list_transaction_year_month_unique, list_prop_churned, b, trend_churned, list_prop_churned_returned, list_prop_churn_never_returned, fig)
     # return x 
     return x
 
