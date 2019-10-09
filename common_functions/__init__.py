@@ -70,6 +70,130 @@ def churn(arr_identifier, arr_transaction_date, identifier_name, end_date, min_t
     # return df_grouped_subset
     return df_grouped_subset
 
+# define function for churn trends
+def churn_trend(arr_identifier, arr_transaction_date, identifier_name, min_transaction_threshold=5, ecdf_threshold=0.9, plot_title='Proportion by Month'):
+    # put arrays into df
+    df = pd.DataFrame({identifier_name: arr_identifier,
+                       'transaction_date': arr_transaction_date})
+    # get year
+    df['transaction_year'] = df.apply(lambda x: x['transaction_date'].year, axis=1)
+    # get month
+    df['transaction_month'] = df.apply(lambda x: x['transaction_date'].month, axis=1)
+    
+    # get max days in each month
+    df['max_days_in_month'] = df.apply(lambda x: cf.max_days_month(month_number=x['transaction_month']), axis=1)
+
+    # create end date (last day of respective month)
+    df['transaction_end_date'] = df.apply(lambda x: datetime.date(year=x['transaction_year'], month=x['transaction_month'], day=x['max_days_in_month']), axis=1)
+
+    # get the unique values for transaction_end_date
+    list_transaction_year_month_unique = list(df['transaction_end_date'].unique())
+
+    # get proportion churned for each month from 2015-01 until the end of 2019-9
+    list_prop_churned = []
+    # get proportion of churned who returned
+    list_prop_churned_returned = []
+    # get proportion of churned who never returned (as of end of previous month)
+    list_prop_churn_never_returned = []
+    # iterate through each element in list_created_at_year_month_unique
+    for transaction_year_month_unique in list_transaction_year_month_unique:
+        # suppress the SettingWithCopyWarning
+        pd.options.mode.chained_assignment = None
+        
+        # subset data
+        df_subset = df[df['transaction_end_date'] <= transaction_year_month_unique]
+        
+        # get churn info for each practitioner
+        df_churn = cf.churn(arr_identifier=df_subset[identifier_name], 
+                            arr_transaction_date=df_subset['transaction_date'], 
+                            identifier_name=identifier_name, 
+                            end_date=transaction_year_month_unique, # last day of each month
+                            min_transaction_threshold=min_transaction_threshold,
+                            ecdf_threshold=ecdf_threshold)
+        
+        # mark as churned or not
+        df_churn['churned_yn'] = df_churn.apply(lambda x: 1 if x['ecdf'] >= .9 else 0, axis=1)
+        
+        # subset to churned customers
+        df_churn_subset = df_churn[df_churn['churned_yn'] == 1]
+        # get number of churned customers
+        n_churned = df_churn_subset.shape[0]
+        
+        # calculate proportion of churned practitioners
+        prop_churned = n_churned/df_churn.shape[0]
+        # append to list
+        list_prop_churned.append(prop_churned)
+        
+        # get the data in df not in df_subset, so we can see if customers returned or not
+        df_leftover = df[df['transaction_end_date'] > transaction_year_month_unique]
+        
+        # mark 1 if returned
+        df_churn_subset['returned'] = df_churn_subset.apply(lambda x: 1 if x[identifier_name] in list(df_leftover[identifier_name]) else 0, axis=1)
+        # get total returned
+        n_returned = np.sum(df_churn_subset['returned'])
+        # get proportion of churned customers who returned
+        prop_churned_returned = n_returned/n_churned
+        # append to list
+        list_prop_churned_returned.append(prop_churned_returned)
+        
+        # mark as 1 if practitioner_id never returned (i.e., never had another transaction)
+        df_churn_subset['never_returned'] = df_churn_subset.apply(lambda x: 1 if x[identifier_name] not in list(df_leftover[identifier_name]) else 0, axis=1)
+        # get total never returned
+        tot_never_returned = np.sum(df_churn_subset['never_returned'])
+        # get proportion of those marked as churned who never returned
+        prop_churn_never_returned = tot_never_returned/n_churned
+        # append to list
+        list_prop_churn_never_returned.append(prop_churn_never_returned)
+        
+    # create lists
+    list_ones = list(np.array(np.ones(len(list_prop_churned))))
+    list_month_number = list(range(1, len(list_prop_churned)+1))
+        
+    # calculate the churned trend
+    # make into multidimensional array
+    data = np.column_stack((list_ones, list_month_number, list_prop_churned))
+    # separate X and y
+    X, y = data[:,0:2], data[:,-1]
+    # ordinary least squares b = (XT*X)^-1 * XT*y
+    b = inv(X.T.dot(X)).dot(X.T).dot(y)
+    # generate predictions
+    trend_churned = [b[0]+b[1]*x for x in list_month_number]
+        
+    # plot it
+    fig, ax = plt.subplots(figsize=(15, 5))
+    # plot title
+    ax.set_title(plot_title)
+    # draw line (actual)
+    ax.plot(list_transaction_year_month_unique, list_prop_churned, color='blue', label='Churned')
+    # draw line (trend)
+    ax.plot(list_transaction_year_month_unique, trend_churned, linestyle=':', color='blue', label='Churned Trend')
+    # proportion returned
+    ax.plot(list_transaction_year_month_unique, list_prop_churned_returned, color='green', label='Returned')
+    # proportion never returned
+    ax.plot(list_transaction_year_month_unique, list_prop_churn_never_returned, color='red', label='Never Returned')
+    # set y-axis
+    ax.set_ylabel('Proportion')
+    # set x-axis
+    ax.set_xlabel('Month')
+    # create legend
+    ax.legend(loc='upper left')
+    
+    # return attributes
+    class attributes:
+        def __init__(self, transaction_year_month_unique, list_prop_churned, b, trend_churned, list_prop_churned_returned, list_prop_churn_never_returned, fig):
+            self.transaction_year_month_unique = transaction_year_month_unique
+            self.list_prop_churned = list_prop_churned
+            self.b = b
+            self.trend_churned = trend_churned
+            self.list_prop_churned_returned = list_prop_churned_returned
+            self.list_prop_churn_never_returned = list_prop_churn_never_returned
+            self.fig = fig
+    # save as returnable object
+    x = attributes(transaction_year_month_unique, list_prop_churned, b, trend_churned, list_prop_churned_returned, list_prop_churn_never_returned, fig)
+    # return x 
+    return x
+
+
 # define function for days_to_churn
 def days_to_churn(list_, ecdf_start=0, ecdf_threshold=.9):
     days_to_churn = 0
