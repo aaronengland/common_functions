@@ -33,6 +33,43 @@ df_customer_churn = churn(arr_identifier=df_customer_transactions['customer_id']
 
 ---
 
+## churn_trend
+
+The `churn_trend` function uses the `churn` function to retrospectively conduct churn analyses for each month provided in the data. It calculates the proportion of churned users by month and also calculates the proportion of churned users who never returned to the platform as well as the proportion of churned users who did return to the platform.l
+
+Arguments:
+- `arr_identifier`: array of IDs for which we will be calculating churn (example: Customer ID).
+- `arr_transaction_date`: array of `datetime.date` for every transaction.
+- `identifier_name`: name of the `arr_identifier` column.
+- `min_transaction_threshold`: minimum number of transactions (default=5).
+- `ecdf_threshold`: ECDF threshold to determine whether or not the ID has churned (default=0.9).
+- `plot_title`: title of the plot.
+
+Attributes:
+- `list_transaction_year_month_unique`: array of end dates for which to use in the `churn` function.
+- `list_prop_churned`: list of the proportion of churned users by month.
+- `b`: array of coefficients for trend of proportion of churned users (intercept, .
+- `trend_churned`: list of values for trend of proportion churned users.
+- `list_prop_churned_returned`: list of the proportion of users who churned and returned by momth. 
+- `list_prop_churn_never_returned`: list of the proportion of users who churned and never returned by momth.
+- `fig`: plot displaying proportion churned users by month as well as trend of proportion churned users, proportion of churned users who never returned, and proportion of churned users who returned.
+
+Example:
+
+```
+from common_functions import churn_trend
+
+# get churn trend
+churn_trend = churn_trend(arr_identifier=df['practitioner_id'], 
+                          arr_transaction_date=df['available_at'], 
+                          identifier_name='practitioner_id', 
+                          min_transaction_threshold=5, 
+                          ecdf_threshold=0.9, 
+                          plot_title='Proportion M.D./O.P. Practitioners by Month')
+```
+
+---
+
 ## days_to_churn
 
 The `days_to_churn` function determines the number of days since the most recent transaction date for which a customer will reach a user-defined ECDF threshold.
