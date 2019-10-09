@@ -83,7 +83,7 @@ def churn_trend(arr_identifier, arr_transaction_date, identifier_name, min_trans
     df['transaction_month'] = df.apply(lambda x: x['transaction_date'].month, axis=1)
     
     # get max days in each month
-    df['max_days_in_month'] = df.apply(lambda x: cf.max_days_month(month_number=x['transaction_month']), axis=1)
+    df['max_days_in_month'] = df.apply(lambda x: max_days_month(month_number=x['transaction_month']), axis=1)
 
     # create end date (last day of respective month)
     df['transaction_end_date'] = df.apply(lambda x: datetime.date(year=x['transaction_year'], month=x['transaction_month'], day=x['max_days_in_month']), axis=1)
@@ -106,12 +106,12 @@ def churn_trend(arr_identifier, arr_transaction_date, identifier_name, min_trans
         df_subset = df[df['transaction_end_date'] <= transaction_year_month_unique]
         
         # get churn info for each practitioner
-        df_churn = cf.churn(arr_identifier=df_subset[identifier_name], 
-                            arr_transaction_date=df_subset['transaction_date'], 
-                            identifier_name=identifier_name, 
-                            end_date=transaction_year_month_unique, # last day of each month
-                            min_transaction_threshold=min_transaction_threshold,
-                            ecdf_threshold=ecdf_threshold)
+        df_churn = churn(arr_identifier=df_subset[identifier_name], 
+                         arr_transaction_date=df_subset['transaction_date'], 
+                         identifier_name=identifier_name, 
+                         end_date=transaction_year_month_unique, # last day of each month
+                         min_transaction_threshold=min_transaction_threshold,
+                         ecdf_threshold=ecdf_threshold)
         
         # mark as churned or not
         df_churn['churned_yn'] = df_churn.apply(lambda x: 1 if x['ecdf'] >= .9 else 0, axis=1)
