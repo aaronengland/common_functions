@@ -816,6 +816,32 @@ def recommendations(arr_prescription, arr_product_name, arr_modality, list_targe
     x = attributes(df_associated_items)
     return x
 
+# define function to get start and end date for rolling year
+def rolling_year_dates(date_today):
+    # get 1 month from date_today
+    date_today_previous_month = (date_today - pd.DateOffset(month=1)).date()
+    # get 11 months from date_today_previous_month
+    date_today_previous_month_11_months_ago = (date_today_previous_month - pd.DateOffset(months=11)).date()
+    # get begin date
+    date_begin = datetime.date(year=date_today_previous_month_11_months_ago.year, 
+                               month=date_today_previous_month_11_months_ago.month,
+                               day=1)
+    # get max days in date_today_previous_month
+    max_days_date_today_previous_month = max_days_month(month_number=date_today_previous_month.month)
+    # get end date
+    date_end = datetime.date(year=date_today_previous_month.year,
+                             month=date_today_previous_month.month,
+                             day=max_days_date_today_previous_month)
+    # class
+    class attributes:
+        def __init__ (self, date_begin, date_end):
+            self.date_begin = date_begin
+            self.date_end = date_end
+    # save as returnable object
+    x = attributes(date_begin, date_end)
+    # return
+    return x
+
 # define function for unifying list length
 def uniform_list_lengths(list_lists, max_length=31):
     list_lists_length = []
