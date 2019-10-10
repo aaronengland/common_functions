@@ -194,7 +194,6 @@ def churn_trend(arr_identifier, arr_transaction_date, identifier_name, min_trans
     # return x 
     return x
 
-
 # define function for days_to_churn
 def days_to_churn(list_, ecdf_start=0, ecdf_threshold=.9):
     days_to_churn = 0
@@ -637,7 +636,7 @@ def prep_cum_sum_for_benchmarking(list_year, list_month, list_day, list_total):
     # return df
     return df
     
-# define function for pulling data for rolling year
+# define function for pulling data for rolling year (for benchmarking!)
 def prep_rolling_year_data_pull(date_today):
     # get yesterday's date
     date_yesterday = (date_today - pd.DateOffset(days=1)).date()
