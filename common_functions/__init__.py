@@ -822,23 +822,48 @@ def rolling_year_dates(date_today):
     date_today_previous_month = (date_today - pd.DateOffset(months=1)).date()
     # get 11 months from date_today_previous_month
     date_today_previous_month_11_months_ago = (date_today_previous_month - pd.DateOffset(months=11)).date()
+    
     # get begin date
     date_begin = datetime.date(year=date_today_previous_month_11_months_ago.year, 
                                month=date_today_previous_month_11_months_ago.month,
                                day=1)
+    # get month
+    month_date_begin = date_begin.month
+    if month_date_begin < 10:
+        month_date_begin = '0{0}'.format(month_date_begin)
+    # get day
+    day_date_begin = date_begin.day
+    if day_date_begin < 10:
+        day_date_begin = '0{0}'.format(day_date_begin)
+    # convert to string
+    date_begin_string = '{0}-{1}-{2}'.format(date_begin.year, month_date_begin, day_date_begin)
+
     # get max days in date_today_previous_month
     max_days_date_today_previous_month = max_days_month(month_number=date_today_previous_month.month)
     # get end date
     date_end = datetime.date(year=date_today_previous_month.year,
                              month=date_today_previous_month.month,
                              day=max_days_date_today_previous_month)
+    # get month
+    month_date_end = date_end.month
+    if month_date_end < 10:
+        month_date_end = '0{0}'.format(month_date_end)
+    # get day
+    day_date_end = date_end.day
+    if day_date_end < 10:
+        day_date_end = '0{0}'.format(day_date_end)
+    # convert to string
+    date_end_string = '{0}-{1}-{2}'.format(date_end.year, month_date_end, day_date_end)
+    
     # class
     class attributes:
-        def __init__ (self, date_begin, date_end):
+        def __init__ (self, date_begin, date_begin_string, date_end, date_end_string):
             self.date_begin = date_begin
+            self.date_begin_string = date_begin_string
             self.date_end = date_end
+            self.date_end_string = date_end_string
     # save as returnable object
-    x = attributes(date_begin, date_end)
+    x = attributes(date_begin, date_begin_string, date_end, date_end_string)
     # return
     return x
 
