@@ -77,21 +77,20 @@ def churn_trend(arr_identifier, arr_transaction_date, identifier_name, min_trans
     # put arrays into df
     df = pd.DataFrame({identifier_name: arr_identifier,
                        'transaction_date': arr_transaction_date})
+    # make sure df is sorted by transaction_date
+    df = df.sort_values(by=['transaction_date'])
     # get year
     df['transaction_year'] = df.apply(lambda x: x['transaction_date'].year, axis=1)
     # get month
     df['transaction_month'] = df.apply(lambda x: x['transaction_date'].month, axis=1)
-    
     # get max days in each month
     df['max_days_in_month'] = df.apply(lambda x: max_days_month(month_number=x['transaction_month']), axis=1)
-
     # create end date (last day of respective month)
     df['transaction_end_date'] = df.apply(lambda x: datetime.date(year=x['transaction_year'], month=x['transaction_month'], day=x['max_days_in_month']), axis=1)
-
     # get the unique values for transaction_end_date
     list_transaction_year_month_unique = list(df['transaction_end_date'].unique())
-
-    # get proportion churned for each month from 2015-01 until the end of 2019-9
+    
+    # get proportion churned for each month
     list_prop_churned = []
     # get proportion of churned who returned
     list_prop_churned_returned = []
@@ -101,28 +100,27 @@ def churn_trend(arr_identifier, arr_transaction_date, identifier_name, min_trans
     for transaction_year_month_unique in list_transaction_year_month_unique:
         # suppress the SettingWithCopyWarning
         pd.options.mode.chained_assignment = None
-        
-        # subset data
+        # subset data to just those before or during transaction_year_month_unique
         df_subset = df[df['transaction_end_date'] <= transaction_year_month_unique]
-        
-        # get churn info for each practitioner
+        # get churn info for each user
         df_churn = churn(arr_identifier=df_subset[identifier_name], 
                          arr_transaction_date=df_subset['transaction_date'], 
                          identifier_name=identifier_name, 
                          end_date=transaction_year_month_unique, # last day of each month
                          min_transaction_threshold=min_transaction_threshold,
                          ecdf_threshold=ecdf_threshold)
-        
+        # get number of customers
+        n_customers = df_churn.shape[0]
         # mark as churned or not
         df_churn['churned_yn'] = df_churn.apply(lambda x: 1 if x['ecdf'] >= .9 else 0, axis=1)
-        
+
         # subset to churned customers
         df_churn_subset = df_churn[df_churn['churned_yn'] == 1]
         # get number of churned customers
         n_churned = df_churn_subset.shape[0]
         
         # calculate proportion of churned practitioners
-        prop_churned = n_churned/df_churn.shape[0]
+        prop_churned = n_churned/n_customers
         # append to list
         list_prop_churned.append(prop_churned)
         
@@ -133,8 +131,8 @@ def churn_trend(arr_identifier, arr_transaction_date, identifier_name, min_trans
         df_churn_subset['returned'] = df_churn_subset.apply(lambda x: 1 if x[identifier_name] in list(df_leftover[identifier_name]) else 0, axis=1)
         # get total returned
         n_returned = np.sum(df_churn_subset['returned'])
-        # get proportion of churned customers who returned
-        prop_churned_returned = n_returned/n_churned
+        # get proportion of all customers who churned and then returned
+        prop_churned_returned = n_returned/n_customers
         # append to list
         list_prop_churned_returned.append(prop_churned_returned)
         
@@ -142,8 +140,8 @@ def churn_trend(arr_identifier, arr_transaction_date, identifier_name, min_trans
         df_churn_subset['never_returned'] = df_churn_subset.apply(lambda x: 1 if x[identifier_name] not in list(df_leftover[identifier_name]) else 0, axis=1)
         # get total never returned
         tot_never_returned = np.sum(df_churn_subset['never_returned'])
-        # get proportion of those marked as churned who never returned
-        prop_churn_never_returned = tot_never_returned/n_churned
+        # get proportion of all customers who churned and never returned
+        prop_churn_never_returned = tot_never_returned/n_customers
         # append to list
         list_prop_churn_never_returned.append(prop_churn_never_returned)
         
