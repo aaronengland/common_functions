@@ -481,14 +481,14 @@ from common_functions import send_gmail
 body = """\
        <html>
          <body>
-           <p>Hello <recipient_name>,<br>
+           <p>Hello,<br>
               <br>
               Attached are the metrics/output from the weekly analysis.<br>
               Please let me know if you have further questions.<br>
               <br>
               Sincerely,<br>
               <br>
-              <sender_name><br>
+              Aaron England<br>
               <br>
               Note: this email has been automatically generated<br>
            </p>
