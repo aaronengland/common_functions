@@ -435,19 +435,26 @@ print(example_object.df_associated_items)
 The `rolling_year_dates` function is used for pulling the beginning and end dates for the last whole rolling time period (in years). 
 
 Arguments:
-- `date_today`: a `datetime
-- `years`: 
+- `date_today`: a `datetime.date` object (default = `datetime.date.today()`)
+- `years`: integer number of years to go back (default = 1).
 
 Attributes:
-- 
-- 
-- 
-- 
+- `date_begin`: `datetime.date` object for start date.
+- `date_begin_string`: string object for start date.
+- `date_end`: `datetime.date` object for end date.
+- `date_end_string`: string object for end date.
 
 Example:
 
 ```
+from common_functions import rolling_year_dates
 
+# pull dates
+dates_to_pull = rolling_year_dates(date_today=datetime.date.today(),
+                                   years=1)
+                                   
+# get start date string
+string_start_date = dates_to_pull.date_begin_string
 ```
 
 ---
