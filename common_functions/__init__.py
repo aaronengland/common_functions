@@ -11,6 +11,12 @@ import datetime
 import matplotlib.pyplot as plt
 from numpy.linalg import inv
 from pandas.plotting import register_matplotlib_converters
+mport smtplib, ssl
+from email import encoders
+from email.mime.base import MIMEBase
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import os
 
 # define function for churn
 def churn(arr_identifier, arr_transaction_date, identifier_name, end_date, min_transaction_threshold=5, ecdf_threshold=0.9):
@@ -867,6 +873,49 @@ def rolling_year_dates(date_today, years=1):
     x = attributes(date_begin, date_begin_string, date_end, date_end_string)
     # return
     return x
+
+# define function for sending email
+def send_gmail(sender_email, sender_password, recipient_email, subject, body, directory_path, list_files_to_attach):
+    # Create a multipart message and set headers
+    message = MIMEMultipart()
+    message['From'] = sender_email
+    message['To'] = recipient_email
+    message['Subject'] = subject
+
+    # Add body to email
+    message.attach(MIMEText(body, 'html'))
+    
+    # set wd to directory_path
+    os.chdir(directory_path)
+    
+    # iterate through all files in newly-created directory
+    for i in range(len(list_files_to_attach)):
+        # instantiate filename
+        filename = list_files_to_attach[i]
+        # open csv file in binary mode
+        with open(filename, 'rb') as attachment:
+            part = MIMEBase('application', 'octet-stream')
+            part.set_payload(attachment.read())
+        # encode file in ASCII characters to send by email    
+        encoders.encode_base64(part)  
+        # add header as key/value pair to attachment part
+        part.add_header(
+            'Content-Disposition',
+            f'attachment; filename= {filename}',
+        )  
+        # add attachment to message
+        message.attach(part)
+
+    # convert message to string
+    text = message.as_string()
+
+    # log in to server using secure context and send email
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as server:
+        server.login(sender_email, sender_password)
+        server.sendmail(sender_email, recipient_email, text)
+    # print message
+    print('Email to {0} with {1} attachments was successfully sent.'.format(recipient_email, len(list_files_to_attach)))
 
 # define function for unifying list length
 def uniform_list_lengths(list_lists, max_length=31):
