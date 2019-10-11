@@ -92,6 +92,7 @@ days_to_churn = days_to_churn(list_=list_of_days_between_transactions,
 ```
 
 ---
+
 ## generic_benchmarking_plots
 
 The `generic_benchmarking_plots` function returns 2 subplots stacked on top of one another. The top plot is the actual current month's cumulative metric vs. predicted cumulative metric based on the current month's goal by day. The bottom plot is the current month's cumulative metric for the current month vs. the previous month's cumulative metric by day.
@@ -343,6 +344,26 @@ df_for_model = prep_cum_sum_for_benchmarking(list_year=list(df['first_order_year
 
 ---
 
+## prep_rolling_year_data_pull
+
+The `prep_rolling_year_data_pull` function is used in the benchmarking analyses to dynamically pull the last 12 whole months of data as of yesterday. It takes a `datetime.date` object as its lone argument and returns a tuple containing the the year and month of the beginning date as well as the year of the end date. The month of the end date is not returned because data will be pulled up to, but not including the current month; which is the same as the beginning month.
+
+Note: this function is designed specifically for the benchmarking analyses. For a more versatile function to pull the dates for a rolling whole year, see the `rolling_year_dates` function.
+
+Arguments:
+- `date_today`: `datetime.date` object (ex: `datetime.date.today()`)
+
+Example:
+
+```
+from common_functions import prep_rolling_year_data_pull
+
+# pull the dates
+prep_rolling_year_dates = prep_rolling_year_data_pull(date_today=datetime.date.today())
+```
+
+---
+
 ## recommendations
 
 The `recomendations` function measures the strength of association of each item with a target item or list of target items. Association is determined using 3 metrics:
@@ -406,6 +427,29 @@ print(example_object.df_associated_items)
 ```
 
 [Source](https://stackabuse.com/association-rule-mining-via-apriori-algorithm-in-python/)
+
+---
+
+## rolling_year_dates
+
+The `rolling_year_dates` function is used for pulling the beginning and end dates for the last whole rolling time period (in years). 
+
+Arguments:
+- `date_today`: a `datetime
+- `years`: 
+
+Attributes:
+- 
+- 
+- 
+- 
+
+Example:
+
+```
+
+```
+
 ---
 
 ## send_gmail
