@@ -413,13 +413,13 @@ print(example_object.df_associated_items)
 The `send_gmail` function sends an email from a user-defined gmail account (i.e. `sender_email`) to a user-defined recipient (i.e., `recipient_email`) with attachments (i.e., `list_files_to_attach`) found in a directory (i.e., `directory_path`).
 
 Arguments:
-- `sender_email`:
-- `sender_password`:
-- `recipient_email`:
-- `subject`:
-- `body`:
-- `directory_path`:
-- `list_files_to_attach`:
+- `sender_email`: string denoting the email address of the sender.
+- `sender_password`: string indicating the password of the `sender_email` account.
+- `recipient_email`: string of the email address of the recipient.
+- `subject`: string denoting the subject of the email.
+- `body`: multi-line, html formatted string denoting the body of the email.
+- `directory_path`: string of the directory path in which the files to attach are stored.
+- `list_files_to_attach`: list of the files in the culminating directory of `directory_path` for which we will be attaching.
 
 Example:
 
