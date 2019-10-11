@@ -513,6 +513,32 @@ send_gmail(sender_email='generic_sender_email@gmail.com',
 ```
 ---
 
+## uniform_list_lengths
 
+The `uniform_list_lengths` function is useful when the user wants to create a data frame with lists of varying lengths as columns. NaN values are appended to each list until they all have length equaling the user-defined `max_length` argument. Returned is a list of the original lists with appended NaNs.
+
+Arguments:
+- `list_lists`: list containing lists for which to resize.
+- `max_length`: maximum length of the lists (default = 31).
+
+Example:
+
+```
+from common_functions import uniform_list_lengths
+
+# instantiate lists of different lengths
+list_1 = [1, 5, 6, 8]
+list_2 = ['a', 'b', 'c']
+list_3 = ['@', '%', '$', 99, 3]
+
+# put lists into list
+list_of_lists = [list_1, list_2, list_3]
+
+# make lengths equal 10
+lists_uniformed = uniform_list_lengths(list_lists=list_of_lists,
+                                       max_length=10)
+```
+
+---
 
 
