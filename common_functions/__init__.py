@@ -11,7 +11,7 @@ import datetime
 import matplotlib.pyplot as plt
 from numpy.linalg import inv
 from pandas.plotting import register_matplotlib_converters
-mport smtplib, ssl
+import smtplib, ssl
 from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
