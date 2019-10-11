@@ -408,7 +408,59 @@ print(example_object.df_associated_items)
 [Source](https://stackabuse.com/association-rule-mining-via-apriori-algorithm-in-python/)
 ---
 
+## send_gmail
 
+The `send_gmail` function sends an email from a user-defined gmail account (i.e. `sender_email`) to a user-defined recipient (i.e., `recipient_email`) with attachments (i.e., `list_files_to_attach`) found in a directory (i.e., `directory_path`).
+
+Arguments:
+- `sender_email`:
+- `sender_password`:
+- `recipient_email`:
+- `subject`:
+- `body`:
+- `directory_path`:
+- `list_files_to_attach`:
+
+Example:
+
+```
+from common_functions import send_gmail
+
+# instantiate the body of the email
+body = """\
+       <html>
+         <body>
+           <p>Hello Jill,<br>
+              <br>
+              Attached are the metrics/output from the weekly analysis.<br>
+              Please let me know if you have further questions.<br>
+              <br>
+              Sincerely,<br>
+              <br>
+              Aaron England<br>
+              <br>
+              Note: this email has been automatically generated<br>
+           </p>
+         </body>
+       </html>
+       """
+# directory
+directory_path = `/path/to/directory/containing/files/to/attach'
+
+# get list of files in the directory to attach
+list_files_to_attach = ['01_plot.png',
+                        '02_csv.csv']
+
+# send message
+send_gmail(sender_email='generic_sender_email@gmail.com', 
+           sender_password='SenderPassword', 
+           recipient_email='generic_recipient_email@gmail.com', 
+           subject='Subject of email', 
+           body=body, 
+           directory_path=directory_path, 
+           list_files_to_attach=list_files_to_attach)
+```
+---
 
 
 
