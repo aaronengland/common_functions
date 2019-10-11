@@ -820,7 +820,7 @@ def recommendations(arr_prescription, arr_product_name, arr_modality, list_targe
     return x
 
 # define function to get start and end date for rolling year
-def rolling_year_dates(date_today=datetimne.date.today(), years=1):
+def rolling_year_dates(date_today=datetime.date.today(), years=1):
     # get 1 month from date_today
     date_today_previous_month = (date_today - pd.DateOffset(months=1)).date()
     
