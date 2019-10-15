@@ -60,12 +60,12 @@ Example:
 from common_functions import churn_trend
 
 # get churn trend
-churn_trend = churn_trend(arr_identifier=df['practitioner_id'], 
-                          arr_transaction_date=df['available_at'], 
-                          start_date=dates_rolling_months.date_begin, 
-                          min_transaction_threshold=5, 
-                          ecdf_threshold=0.9, 
-                          plot_title='Proportion M.D./O.P. Practitioners by Month')
+churn_trend_info = churn_trend(arr_identifier=df['practitioner_id'], 
+                               arr_transaction_date=df['available_at'], 
+                               start_date=dates_rolling_months.date_begin, 
+                               min_transaction_threshold=5, 
+                               ecdf_threshold=0.9, 
+                               plot_title='Proportion M.D./O.P. Practitioners by Month')
 ```
 
 ---
