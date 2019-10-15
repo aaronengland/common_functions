@@ -77,7 +77,9 @@ def churn(arr_identifier, arr_transaction_date, identifier_name, end_date, min_t
     return df_grouped_subset
 
 # define function for churn trends
-def churn_trend(arr_identifier, arr_transaction_date, identifier_name, min_transaction_threshold=5, ecdf_threshold=0.9, plot_title='Proportion by Month'):
+def churn_trend(arr_identifier, arr_transaction_date, start_date, min_transaction_threshold=5, ecdf_threshold=0.9, plot_title='Proportion by Month'):
+    # save identifier name
+    identifier_name = arr_identifier.name
     # put arrays into df
     df = pd.DataFrame({identifier_name: arr_identifier,
                        'transaction_date': arr_transaction_date})
@@ -93,6 +95,8 @@ def churn_trend(arr_identifier, arr_transaction_date, identifier_name, min_trans
     df['transaction_end_date'] = df.apply(lambda x: datetime.date(year=x['transaction_year'], month=x['transaction_month'], day=x['max_days_in_month']), axis=1)
     # get the unique values for transaction_end_date
     list_transaction_year_month_unique = list(df['transaction_end_date'].unique())
+    # get the ones > start date
+    list_transaction_year_month_unique = [x for x in list_transaction_year_month_unique if x > start_date]
     
     # get proportion churned for each month
     list_prop_churned = []
@@ -100,12 +104,14 @@ def churn_trend(arr_identifier, arr_transaction_date, identifier_name, min_trans
     list_prop_churned_returned = []
     # get proportion of churned who never returned (as of end of previous month)
     list_prop_churn_never_returned = []
+    
     # iterate through each element in list_created_at_year_month_unique
     for transaction_year_month_unique in list_transaction_year_month_unique:
         # suppress the SettingWithCopyWarning
         pd.options.mode.chained_assignment = None
         # subset data to just those before or during transaction_year_month_unique
         df_subset = df[df['transaction_end_date'] <= transaction_year_month_unique]
+        
         # get churn info for each user
         df_churn = churn(arr_identifier=df_subset[identifier_name], 
                          arr_transaction_date=df_subset['transaction_date'], 
@@ -113,6 +119,7 @@ def churn_trend(arr_identifier, arr_transaction_date, identifier_name, min_trans
                          end_date=transaction_year_month_unique, # last day of each month
                          min_transaction_threshold=min_transaction_threshold,
                          ecdf_threshold=ecdf_threshold)
+
         # get number of customers
         n_customers = df_churn.shape[0]
         # mark as churned or not
