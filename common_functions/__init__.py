@@ -70,8 +70,6 @@ def churn(arr_identifier, arr_transaction_date, identifier_name, end_date, min_t
     # print message
     print('\n')
     print('Days from maximum transaction date to churn (i.e., ECDF = {0}) and anticipated churn date for each {1} have been calculated.'.format(ecdf_threshold, identifier_name))
-    # drop transaction_date and days_to_churn
-    df_grouped_subset.drop(['transaction_date'], axis=1, inplace=True)
     # print message
     print('\n')
     print('Churn analysis complete!')
