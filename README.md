@@ -40,7 +40,7 @@ The `churn_trend` function uses the `churn` function to retrospectively conduct 
 Arguments:
 - `arr_identifier`: array of IDs for which we will be calculating churn (example: Customer ID).
 - `arr_transaction_date`: array of `datetime.date` for every transaction.
-- `identifier_name`: name of the `arr_identifier` column.
+- `start_date`: a `datetime.date` object identifying the beginning of the churn trend.
 - `min_transaction_threshold`: minimum number of transactions (default=5).
 - `ecdf_threshold`: ECDF threshold to determine whether or not the ID has churned (default=0.9).
 - `plot_title`: title of the plot.
