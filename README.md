@@ -35,7 +35,7 @@ df_customer_churn = churn(arr_identifier=df_customer_transactions['customer_id']
 
 ## churn_trend
 
-The `churn_trend` function uses the `churn` function to retrospectively conduct churn analyses for each month provided in the data. It calculates the proportion of churned users by month and also calculates the proportion of churned users who never returned to the platform as well as the proportion of churned users who did return to the platform.l
+The `churn_trend` function uses the `churn` function to retrospectively conduct churn analyses for each month from the user-defined `start_date` until the most recent full month provided in the data. It calculates the proportion of churned users by month and also calculates the proportion of churned users who never returned to the platform as well as the proportion of churned users who did return to the platform.
 
 Arguments:
 - `arr_identifier`: array of IDs for which we will be calculating churn (example: Customer ID).
