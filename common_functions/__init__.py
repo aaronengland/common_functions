@@ -196,7 +196,7 @@ def churn_trend(arr_identifier, arr_transaction_date, start_date, min_transactio
     # return attributes
     class attributes:
         def __init__(self, df_results, b, trend_churned, fig):
-            self.df_results = list_transaction_year_month_unique
+            self.df_results = df_results
             self.b = b
             self.trend_churned = trend_churned
             self.fig = fig
