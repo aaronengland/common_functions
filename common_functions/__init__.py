@@ -190,8 +190,9 @@ def churn_trend(arr_identifier, arr_transaction_date, start_date, min_transactio
     # create legend
     ax.legend(loc='upper left')
     
-    # save df with the importwnt info to return as an attribute
-    df_results =  df_trans_year_month.drop(columns=['df_churn'])
+    # save df with the important info to return as an attribute
+    #df_results =  df_trans_year_month.drop(columns=['df_churn'])
+    df_results =  df_trans_year_month
     
     # return attributes
     class attributes:
