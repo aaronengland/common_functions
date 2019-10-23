@@ -167,8 +167,12 @@ def churn_trend(arr_identifier, arr_transaction_date, start_date, min_transactio
     X, y = data[:,0:2], data[:,-1]
     # ordinary least squares b = (XT*X)^-1 * XT*y
     b = inv(X.T.dot(X)).dot(X.T).dot(y)
+    # save intercept
+    intercept = b[0]
+    # save slope
+    slope = b[1]
     # generate predictions
-    trend_churned = [b[0]+b[1]*x for x in list_month_number]
+    trend_churned = [intercept + (slope*x) for x in list_month_number]
         
     # plot it
     register_matplotlib_converters() # for dates as x-axis
@@ -178,7 +182,7 @@ def churn_trend(arr_identifier, arr_transaction_date, start_date, min_transactio
     # draw line (actual)
     ax.plot(list_transaction_year_month_unique, df_trans_year_month['prop_customers_churned'], color='blue', label='Churned')
     # draw line (trend)
-    ax.plot(list_transaction_year_month_unique, trend_churned, linestyle=':', color='blue', label='Churned Trend')
+    ax.plot(list_transaction_year_month_unique, trend_churned, linestyle=':', color='blue', label='Churned Trend ({0:0.3f})'.format(slope))
     # proportion returned
     ax.plot(list_transaction_year_month_unique, df_trans_year_month['prop_returned'], color='green', label='Returned')
     # proportion never returned
