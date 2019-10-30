@@ -272,6 +272,9 @@ def find_elbow(list_, min_n, max_n):
     
     # sort by slope_ratio
     df = df.sort_values(by=['slope_ratio'], ascending=False)
+    
+    # return df
+    return df
 
 # define function for generic benchmarking plots
 def generic_benchmarking_plots(metric,
