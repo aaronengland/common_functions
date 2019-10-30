@@ -277,9 +277,9 @@ def find_elbow_distant(list_, min_n, max_n):
     return df
 
 # definen function for finding elbow with points closest to each point  
-def find_elbow_relative(array_):
+def find_elbow_relative(list_):
     # create df counting 1 to n
-    df = pd.DataFrame({'n': range(1, len(array_)+1),
+    df = pd.DataFrame({'n': range(1, len(list_)+1),
                        'value': list_})
 
     # find slope of line before point
