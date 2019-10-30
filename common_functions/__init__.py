@@ -219,6 +219,71 @@ def days_to_churn(list_, ecdf_start=0, ecdf_threshold=.9):
         ecdf_start = get_ecdf(list_, days_to_churn)
     return days_to_churn
 
+# create function for finding elbow
+def find_elbow(array_sorted_by_n):
+    # create df counting 1 to n
+    df = pd.DataFrame({'n': range(1, len(array_)+1),
+                       'value': array_})
+
+    # find slope of line before point
+    list_prior_slope = [0]
+    for i in range(len(array_)-1):
+        prior_slope = array_[i+1] - array_[i]
+        # append to list
+        list_prior_slope.append(prior_slope)
+
+    # put as col in df
+    df['slope_prior'] = list_prior_slope
+
+    # get slope after point
+    list_post_slope = []
+    for i in range(len(array_)-1):
+        post_slope = array_[i+1] - array_[i]
+        # append to list
+        list_post_slope.append(post_slope)
+    # append a 0 to list_post_slope
+    list_post_slope.append(0)
+    
+    # put as col in df
+    df['slope_post'] = list_post_slope
+    
+    # get the index of the first 0 in slope_post
+    for i in range(len(df['slope_post'])):
+        if df['slope_post'].iloc[i] == 0:
+            break
+    
+    # subset to first i rows and get rid of first row because we know it's not the elbow
+    df = df.iloc[1:i, :]
+        
+    # calculate aabsolute difference
+    df['slope_diff'] = df['slope_prior'] - df['slope_post']
+    
+    # calculate ratio
+    df['slope_ratio'] = df['slope_prior'] / df['slope_post']
+
+    # convert slope_ratio to z-score
+    # calculate mean
+    mean_ratio = np.mean(df['slope_ratio'])
+    # calculate sd
+    sd_ratio = np.std(df['slope_ratio'])
+    # calculate z
+    list_ratio_z_score = [(x-mean_ratio)/sd_ratio for x in df['slope_ratio']]
+    
+    # create col in df
+    df['slope_ratio_z_score'] = list_ratio_z_score
+    
+    # drop any rows where the z score is positive
+    df = df[df['slope_ratio_z_score'] < 0]
+    
+    # sort descending by slope_ratio
+    df = df.sort_values(by=['slope_ratio'], ascending=False)
+    
+    # get the best n for elbow
+    elbow = df['n'].iloc[0]
+    
+    # return elbow
+    return elbow
+
 # define function for generic benchmarking plots
 def generic_benchmarking_plots(metric,
                                country, 
