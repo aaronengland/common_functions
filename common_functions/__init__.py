@@ -220,7 +220,7 @@ def days_to_churn(list_, ecdf_start=0, ecdf_threshold=.9):
     return days_to_churn
 
 # create function for finding elbow
-def find_elbow(list_, min_n, max_n):
+def find_elbow_distant(list_, min_n, max_n):
     # create df counting 1 to n
     df = pd.DataFrame({'n': range(1, len(list_)+1),
                        'value': list_})
@@ -269,6 +269,59 @@ def find_elbow(list_, min_n, max_n):
     
     # subset to min and max
     df = df[(df['n'] >= min_n) & (df['n'] <= max_n)]
+    
+    # sort by slope_ratio
+    df = df.sort_values(by=['slope_ratio'], ascending=False)
+    
+    # return df
+    return df
+
+# definen function for finding elbow with points closest to each point  
+def find_elbow_relative(array_):
+    # create df counting 1 to n
+    df = pd.DataFrame({'n': range(1, len(array_)+1),
+                       'value': list_})
+
+    # find slope of line before point
+    list_prior_slope = [0]
+    for i in range(len(list_)-1):
+        prior_slope = list_[i+1] - list_[i]
+        # append to list
+        list_prior_slope.append(prior_slope)
+
+    # put as col in df
+    df['slope_prior'] = list_prior_slope
+
+    # get slope after point
+    list_post_slope = []
+    for i in range(len(list_)-1):
+        post_slope = list_[i+1] - list_[i]
+        # append to list
+        list_post_slope.append(post_slope)
+    # append a 0 to list_post_slope
+    list_post_slope.append(0)
+    
+    # put as col in df
+    df['slope_post'] = list_post_slope
+    
+    # get index of first non-negative value in df['slope_prior']
+    for i in range(len(df['slope_prior'])):
+        if df['slope_prior'].iloc[i] > 0:
+            break
+    
+    # subset to first i rows and get rid of first row because we know it's not the elbow
+    df = df.iloc[1:i, :]
+    
+    # get index of first non-negative value in df['slope_post']
+    for i in range(len(df['slope_post'])):
+        if df['slope_post'].iloc[i] > 0:
+            break
+    
+    # subset to first i rows and get rid of first row because we know it's not the elbow
+    df = df.iloc[:i, :]
+    
+    # calculate ratio
+    df['slope_ratio'] = df['slope_prior'] / df['slope_post']
     
     # sort by slope_ratio
     df = df.sort_values(by=['slope_ratio'], ascending=False)
