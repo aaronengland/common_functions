@@ -220,7 +220,7 @@ def days_to_churn(list_, ecdf_start=0, ecdf_threshold=.9):
     return days_to_churn
 
 # create function for finding elbow
-def find_elbow(array_sorted_by_n):
+def find_elbow(array_):
     # create df counting 1 to n
     df = pd.DataFrame({'n': range(1, len(array_)+1),
                        'value': array_})
