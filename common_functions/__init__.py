@@ -219,65 +219,8 @@ def days_to_churn(list_, ecdf_start=0, ecdf_threshold=.9):
         ecdf_start = get_ecdf(list_, days_to_churn)
     return days_to_churn
 
-# create function for finding elbow
-def find_elbow_distant(list_, min_n, max_n):
-    # create df counting 1 to n
-    df = pd.DataFrame({'n': range(1, len(list_)+1),
-                       'value': list_})
-            
-    # find slope from beginning to each point
-    # get start value
-    start_value_rise = list_[0]
-    list_slope_prior = [0]
-    for i in range(1, len(list_)):
-        # get rise
-        rise_prior = df['value'].iloc[i] - start_value_rise
-        # run
-        run_prior = df['n'].iloc[i] - 1
-        # get rise over run (i.e., slope)
-        slope_prior = rise_prior / run_prior
-        # append to list
-        list_slope_prior.append(slope_prior)
-    
-    # put as col in df
-    df['slope_prior'] = list_slope_prior
-    
-    # find slope from end to each point
-    # get end value
-    end_value_rise = list_[-1]
-    list_slope_post = []
-    for i in range(0, len(list_)-1):
-        # get rise
-        rise_post = end_value_rise - df['value'].iloc[i]
-        # run
-        run_post = np.max(df['n']) - df['n'].iloc[i]
-        # get rise over run (i.e., slope)
-        slope_post = rise_post / run_post
-        # append to list
-        list_slope_post.append(slope_post)
-    # append 0 to list_slope_post
-    list_slope_post.append(0)
-    
-    # put as col in df
-    df['slope_post'] = list_slope_post
-
-    # calculate ratio
-    df['slope_ratio'] = df['slope_prior'] / df['slope_post']
-    
-    # get rid of any infs (i.e., when slope_post == 0)
-    df = df[(df['slope_prior'] != 0) & (df['slope_post'] != 0)]
-    
-    # subset to min and max
-    df = df[(df['n'] >= min_n) & (df['n'] <= max_n)]
-    
-    # sort by slope_ratio
-    df = df.sort_values(by=['slope_ratio'], ascending=False)
-    
-    # return df
-    return df
-
 # definen function for finding elbow with points closest to each point  
-def find_elbow_relative(list_):
+def find_elbow(list_):
     # create df counting 1 to n
     df = pd.DataFrame({'n': range(1, len(list_)+1),
                        'value': list_})
