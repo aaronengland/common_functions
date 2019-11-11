@@ -219,7 +219,7 @@ def days_to_churn(list_, ecdf_start=0, ecdf_threshold=.9):
         ecdf_start = get_ecdf(list_, days_to_churn)
     return days_to_churn
 
-# definen function for finding elbow with points closest to each point  
+# define function for finding elbow with points closest to each point  
 def find_elbow(list_):
     # create df counting 1 to n
     df = pd.DataFrame({'n': range(1, len(list_)+1),
@@ -248,8 +248,8 @@ def find_elbow(list_):
     df['slope_post'] = list_post_slope
     
     # get index of first non-negative value in df['slope_prior']
-    for i in range(len(df['slope_prior'])):
-        if df['slope_prior'].iloc[i] > 0:
+    for i in range(1, len(df['slope_prior'])):
+        if df['slope_prior'].iloc[i] >= 0:
             break
     
     # subset to first i rows and get rid of first row because we know it's not the elbow
@@ -261,10 +261,13 @@ def find_elbow(list_):
             break
     
     # subset to first i rows and get rid of first row because we know it's not the elbow
-    df = df.iloc[:i, :]
+    df = df.iloc[:i+1, :]
     
     # calculate ratio
     df['slope_ratio'] = df['slope_prior'] / df['slope_post']
+    
+    # make sure any inf values (i.e., slope post == 0) are greater than max
+    df['slope_ratio'] = df.apply(lambda x: np.max(df['slope_ratio'])+.01 if x['slope_ratio'] == float('-inf') else x['slope_ratio'], axis=1)
     
     # sort by slope_ratio
     df = df.sort_values(by=['slope_ratio'], ascending=False)
