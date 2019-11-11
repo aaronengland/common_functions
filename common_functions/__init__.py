@@ -269,6 +269,9 @@ def find_elbow(list_):
     # make sure any inf values (i.e., slope post == 0) are greater than max
     df['slope_ratio'] = df.apply(lambda x: np.max(df['slope_ratio'])+.01 if x['slope_ratio'] == float('-inf') else x['slope_ratio'], axis=1)
     
+    # convert slope_ratio to absolute value
+    df['slope_ratio'] = df.apply(lambda x: abs(x['slope_ratio']), axis=1)
+    
     # sort by slope_ratio
     df = df.sort_values(by=['slope_ratio'], ascending=False)
     
